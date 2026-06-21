@@ -1,0 +1,39 @@
+name: check
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - run: npm test
+      - run: npm run build
+
+  cli-reference-fresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - name: Install retask CLI
+        run: |
+          curl -fsSL https://retask.work/install.sh | sh
+          # install.sh drops the binary in one of these; expose whichever exists
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+          echo "/usr/local/bin" >> "$GITHUB_PATH"
+      - name: Regenerate the CLI reference
+        run: npm run gen:cli
+      - name: Fail if the committed reference is stale
+        run: git diff --exit-code -- src/content/docs/cli/reference
