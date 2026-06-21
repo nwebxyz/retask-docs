@@ -23,6 +23,7 @@ describe('groupKey', () => {
     expect(groupKey('retask auth login')).toBe('auth');
     expect(groupKey('retask project-config get')).toBe('project-config');
     expect(groupKey('retask upgrade')).toBe('upgrade');
+    expect(groupKey('retask')).toBe('misc');
   });
 });
 
@@ -52,5 +53,14 @@ describe('renderAll', () => {
   it('marks each page as auto-generated', () => {
     const page = renderAll(manifest).get('task')!;
     expect(page).toContain('AUTO-GENERATED');
+  });
+
+  it('preserves manifest order of groups', () => {
+    expect([...renderAll(manifest).keys()]).toEqual(['auth', 'task', 'project-config']);
+  });
+
+  it('omits the Flags line when a command has no flags', () => {
+    const page = renderAll(manifest).get('task')!;
+    expect(page).not.toContain('**Flags:**');
   });
 });

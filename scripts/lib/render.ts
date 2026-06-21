@@ -53,9 +53,8 @@ export function renderAll(manifest: Manifest): Map<string, string> {
   const groups = new Map<string, CommandEntry[]>();
   for (const cmd of manifest.commands) {
     const key = groupKey(cmd.command);
-    const bucket = groups.get(key) ?? [];
-    bucket.push(cmd);
-    groups.set(key, bucket);
+    if (!groups.has(key)) groups.set(key, []);
+    groups.get(key)!.push(cmd);
   }
   const pages = new Map<string, string>();
   for (const [key, entries] of groups) {
