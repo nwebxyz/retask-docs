@@ -7,12 +7,18 @@
     "start": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "test": "vitest run",
+    "gen:cli": "tsx scripts/gen-cli-reference.ts"
   },
   "dependencies": {
     "@astrojs/starlight": "^0.40.0",
     "@fontsource-variable/inter": "^5.2.8",
     "astro": "^6.4.5",
     "sharp": "^0.34.5"
+  },
+  "devDependencies": {
+    "tsx": "^4.22.4",
+    "vitest": "^4.1.9"
   }
 }
