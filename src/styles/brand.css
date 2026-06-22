@@ -54,10 +54,20 @@
   letter-spacing: -0.018em;
 }
 
+/* Trim the splash hero's oversized vertical padding (default is 160px top/bottom) */
+.hero {
+  padding-block: clamp(1.5rem, 4vw, 3rem);
+}
+
 /* Splash homepage hero title — give it a dedicated, smaller clamp */
 .hero h1 {
   font-size: clamp(2rem, 1.2rem + 3vw, 3rem);
   letter-spacing: -0.02em;
+}
+
+/* Tighten the gap between the hero CTA buttons (default is 1rem/2rem) */
+.hero .actions {
+  gap: 0.6rem;
 }
 
 /* Compact hero CTAs — sized to match the Cloudflare docs buttons */
@@ -279,6 +289,11 @@
 /* ---- LinkCard / Card grid: Cloudflare-style tiles ---- */
 .sl-markdown-content .card-grid {
   gap: 1rem;
+}
+/* More breathing room between landing-page sections (card grid → next heading) */
+.sl-markdown-content .card-grid + .sl-heading-wrapper,
+.sl-markdown-content .card-grid + :is(h2, h3) {
+  margin-top: 4rem;
 }
 .card {
   border-width: 1px;
