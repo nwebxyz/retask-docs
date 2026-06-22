@@ -36,11 +36,17 @@ at two levels:
 
 </Steps>
 
-<Aside type="caution" title="Keep keys safe">
-  API keys and access tokens are sensitive. Paste them only into the official
-  Retask integration screen, give them the narrowest scope that works, and rotate
-  them if you suspect they've leaked.
-</Aside>
+## Your keys are safe
+
+Retask encrypts your secrets and stores them in a secure database. Only a limited
+set of services can access them, and only when they're actually needed to run a
+session.
+
+For **Cloud sandboxes**, you also choose a **credential mode** that controls
+*how* those secrets reach the agent — including a recommended mode that keeps your
+real keys out of the agent's reach entirely. See
+[Credential modes](/guides/sandboxes/#credential-modes-cloud-only) in the
+Sandboxes guide.
 
 ## Use an integration
 

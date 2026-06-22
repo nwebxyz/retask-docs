@@ -82,6 +82,43 @@ provisions the environment — nothing to install on your side.
   </TabItem>
 </Tabs>
 
+### Credential modes (Cloud only)
+
+When a Cloud sandbox runs, it needs the secrets from your
+[integrations](/guides/integrations/) (API keys, tokens). The **credential mode**
+controls how those secrets are handed to the agent. This setting applies to
+**Cloud sandboxes only** — it does not apply to Private VMs.
+
+#### Secured with Proxy (recommended)
+
+Inside the sandbox, each credential is set to a harmless placeholder value so
+programs can still start normally. When the sandbox makes an outbound HTTPS call
+to the matching API domain, Retask's proxy transparently replaces the placeholder
+with the real credential — so the AI agent itself never sees your actual secret.
+
+Placeholders are swapped for the real value only when calling these domains:
+
+| Credential | Used for |
+| --- | --- |
+| `ANTHROPIC_API_KEY` | `api.anthropic.com` |
+| `OPENAI_API_KEY` | `api.openai.com` |
+| `GH_TOKEN`, `GITHUB_TOKEN` | `github.com`, `gist.github.com`, `api.github.com`, `uploads.github.com`, `raw.githubusercontent.com` |
+| `NWEB_API_TOKEN` | `api.nweb.app` |
+
+#### Passthrough
+
+Credentials are pushed directly into the sandbox's process environment as their
+real values. The AI agent can read them — which makes this mode vulnerable to
+prompt-injection attacks that trick the agent into leaking or misusing your
+credentials. Use it only if you route requests through a non-canonical host (a
+custom LLM gateway, or GitHub Enterprise).
+
+<Aside type="tip">
+  Stick with **Secured with Proxy** unless you have a specific reason not to. It
+  keeps your real keys out of the agent's reach while still letting its tools call
+  the APIs they need.
+</Aside>
+
 ### Private VM
 
 A Private VM is your own machine, connected to Retask so agents can run on it —
