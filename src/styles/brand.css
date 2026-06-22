@@ -59,3 +59,31 @@
   font-size: clamp(2rem, 1.2rem + 3vw, 3rem);
   letter-spacing: -0.02em;
 }
+
+/* ---- Light visual polish (echoes retask.work) ---- */
+/* Primary CTA buttons (e.g. hero "Get started") */
+.sl-link-button.primary {
+  background: var(--retask-primary);
+  border-radius: 10px;
+}
+:root[data-theme='light'] .sl-link-button.primary:hover {
+  background: var(--retask-ink);
+}
+
+/* Cards on the homepage and in guides */
+.card {
+  border-radius: 12px;
+  transition: border-color 0.15s ease, transform 0.15s ease;
+}
+.card:hover {
+  border-color: var(--retask-secondary);
+  transform: translateY(-2px);
+}
+
+/* Content links: brand blue with comfortable underline offset */
+.sl-markdown-content a:not(:where(.not-content *)) {
+  text-underline-offset: 0.2em;
+}
+:root[data-theme='light'] .sl-markdown-content a:not(:where(.not-content *)):hover {
+  color: var(--retask-ink);
+}
