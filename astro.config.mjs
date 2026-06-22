@@ -7,7 +7,32 @@ export default defineConfig({
   integrations: [
     starlight({
       title: 'Retask Docs',
-      logo: { src: './src/assets/logo.svg', replacesTitle: true },
+      logo: {
+        light: './src/assets/logo-light.svg',
+        dark: './src/assets/logo-dark.svg',
+        replacesTitle: true,
+      },
+      head: [
+        {
+          tag: 'meta',
+          attrs: { name: 'theme-color', content: '#2442AF' },
+        },
+      ],
+      // Top nav lives inside our SocialIcons component.
+      components: {
+        SocialIcons: './src/components/SocialIcons.astro',
+      },
+      // Code blocks: framed, copy button, brand-matched light/dark themes.
+      expressiveCode: {
+        themes: ['github-dark', 'github-light'],
+        styleOverrides: {
+          borderRadius: '0.5rem',
+          borderColor: 'var(--sl-color-gray-5)',
+          frames: {
+            shadowColor: 'transparent',
+          },
+        },
+      },
       customCss: ['./src/styles/brand.css'],
       sidebar: [
         {

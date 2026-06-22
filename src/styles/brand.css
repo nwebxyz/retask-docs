@@ -1,19 +1,317 @@
-/* Self-hosted Inter — matches the marketing site */
-@import '@fontsource-variable/inter';
+/* Self-hosted Plus Jakarta Sans — matches the marketing site (retask.work) */
+@import '@fontsource-variable/plus-jakarta-sans';
 
+/* ---- Retask brand tokens (from ui/theme/brandTokens) ---- */
 :root {
-  /* Brand fonts */
-  --sl-font: 'Inter Variable', system-ui, -apple-system, sans-serif;
+  --retask-primary: #2442af;
+  --retask-primary-light: #dce7fa;
+  --retask-secondary: #87bfff;
+  --retask-ink: #0f1f4a;
 
-  /* Retask brand accent (green #035A4B) mapped to Starlight accent scale */
-  --sl-color-accent-low: #07261f;
-  --sl-color-accent: #035a4b;
-  --sl-color-accent-high: #9fd6c9;
+  /* Brand font everywhere; code stays on the default mono stack */
+  --sl-font: 'Plus Jakarta Sans Variable', system-ui, -apple-system, sans-serif;
 }
 
-/* Light theme: nudge accent toward the marketing blue for links on white */
+/* ---- Accent palette: dark mode (default :root) ---- */
+:root {
+  --sl-color-accent-low: #16306f;
+  --sl-color-accent: #2f54c9;
+  --sl-color-accent-high: #9dbeff; /* links/text on dark — lightened for contrast */
+}
+
+/* ---- Accent palette: light mode ---- */
 :root[data-theme='light'] {
-  --sl-color-accent-low: #c9daff;
-  --sl-color-accent: #1f5fd6; /* readable variant of #377DFF on white */
-  --sl-color-accent-high: #0a2a66;
+  --sl-color-accent-low: #dce7fa;
+  --sl-color-accent: #2442af; /* brand primary — links, active sidebar item */
+  --sl-color-accent-high: #16306f;
+}
+
+/* ---- Balanced heading scale (docs-friendly, not marketing-sized) ---- */
+:root {
+  --sl-line-height-headings: 1.25;
+  --sl-text-h1: 2rem; /* 32px (was 4xl/35px on mobile) */
+  --sl-text-h2: 1.5rem; /* 24px */
+  --sl-text-h3: 1.25rem; /* 20px */
+  --sl-text-h4: 1.125rem; /* 18px */
+  --sl-text-h5: 1rem;
+}
+
+/* Re-assert at the breakpoint where the base theme bumps h1 to its largest step (42px) */
+@media (min-width: 50em) {
+  :root {
+    --sl-text-h1: 2rem;
+    --sl-text-h2: 1.5rem;
+    --sl-text-h3: 1.25rem;
+    --sl-text-h4: 1.125rem;
+    --sl-text-h5: 1rem;
+  }
+}
+
+/* Heading weight + tracking to match the brand voice */
+.sl-markdown-content :is(h1, h2, h3, h4),
+.content-panel h1 {
+  font-weight: 700;
+  letter-spacing: -0.018em;
+}
+
+/* Trim the splash hero's oversized vertical padding (default is 160px top/bottom) */
+.hero {
+  padding-block: clamp(1.5rem, 4vw, 3rem);
+}
+
+/* Splash homepage hero title — give it a dedicated, smaller clamp */
+.hero h1 {
+  font-size: clamp(2rem, 1.2rem + 3vw, 3rem);
+  letter-spacing: -0.02em;
+}
+
+/* Tighten the gap between the hero CTA buttons (default is 1rem/2rem) */
+.hero .actions {
+  gap: 0.6rem;
+}
+
+/* Compact hero CTAs */
+.hero .sl-link-button {
+  padding: 0.5rem 1.1rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.45;
+}
+.hero .sl-link-button svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+/* ---- Light visual polish (echoes retask.work) ---- */
+/* Primary CTA buttons (e.g. hero "Get started") — white text in both modes */
+.sl-link-button.primary {
+  background: var(--retask-primary);
+  color: #fff;
+  border-radius: 999px;
+}
+.sl-link-button.primary:hover {
+  color: #fff;
+  background: #3358d4; /* dark mode: lighten on hover */
+}
+:root[data-theme='light'] .sl-link-button.primary:hover {
+  background: var(--retask-ink); /* light mode: darken on hover */
+}
+
+/* Secondary CTA (e.g. hero "Retask CLI") — match the primary's shape, brand-colored outline */
+.sl-link-button.secondary {
+  border-radius: 999px;
+  border-color: var(--retask-secondary);
+  color: var(--retask-secondary);
+}
+:root[data-theme='light'] .sl-link-button.secondary {
+  border-color: var(--retask-primary);
+  color: var(--retask-primary);
+}
+.sl-link-button.secondary:hover {
+  border-color: var(--retask-secondary);
+  background: color-mix(in srgb, var(--retask-secondary) 14%, transparent);
+}
+:root[data-theme='light'] .sl-link-button.secondary:hover {
+  border-color: var(--retask-primary);
+  background: var(--retask-primary-light);
+}
+
+/* Cards on the homepage and in guides */
+.card {
+  border-radius: 12px;
+  transition: border-color 0.15s ease, transform 0.15s ease;
+}
+.card:hover {
+  border-color: var(--retask-secondary);
+  transform: translateY(-2px);
+}
+
+/* Content links: brand blue with comfortable underline offset */
+.sl-markdown-content a:not(:where(.not-content *)) {
+  text-underline-offset: 0.2em;
+}
+:root[data-theme='light'] .sl-markdown-content a:not(:where(.not-content *)):hover {
+  color: var(--retask-ink);
+}
+
+/* =========================================================================
+   Layout & component polish (Retask-branded)
+   ========================================================================= */
+
+/* ---- Top navigation (rendered by src/components/SocialIcons.astro) ---- */
+.retask-topnav {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  margin-inline-end: 0.25rem;
+}
+.retask-topnav__link {
+  color: var(--sl-color-gray-2);
+  font-size: var(--sl-text-sm);
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.retask-topnav__link:hover {
+  color: var(--sl-color-white);
+}
+.retask-topnav__cta {
+  display: inline-flex;
+  align-items: center;
+  margin-inline-start: 0.5rem;
+  padding: 0.34rem 0.95rem;
+  border-radius: 999px;
+  background: var(--retask-primary);
+  color: #fff;
+  font-size: var(--sl-text-sm);
+  font-weight: 700;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background 0.15s ease;
+}
+.retask-topnav__cta:hover {
+  background: #3358d4;
+}
+:root[data-theme='light'] .retask-topnav__cta:hover {
+  background: var(--retask-ink);
+}
+/* Collapse text nav on small screens; the sidebar + CTA carry navigation */
+@media (max-width: 50em) {
+  .retask-topnav,
+  .retask-topnav__cta {
+    display: none;
+  }
+}
+
+/* ---- Denser sidebar ---- */
+.sidebar-content {
+  font-size: 0.875rem;
+}
+.sidebar-content a {
+  padding-block: 0.42rem;
+  line-height: 1.4;
+}
+/* Breathing room between top-level sidebar groups (Guides / CLI) */
+.sidebar-content ul.top-level > li + li {
+  margin-top: 1.5rem;
+}
+/* A little space under each group label and around nested sub-groups */
+.sidebar-content summary {
+  margin-bottom: 0.35rem;
+}
+.sidebar-content .top-level ul ul {
+  margin-top: 0.35rem;
+}
+/* Group headings: smaller, uppercase, tracked-out — like CF section labels */
+.sidebar-content .large {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--sl-color-gray-3);
+}
+/* Active item: subtle brand-tinted pill */
+.sidebar-content a[aria-current='page'],
+.sidebar-content a[aria-current='page']:hover {
+  font-weight: 600;
+  background: var(--sl-color-accent-low);
+  color: var(--sl-color-white);
+  border-radius: 6px;
+}
+:root[data-theme='light'] .sidebar-content a[aria-current='page'],
+:root[data-theme='light'] .sidebar-content a[aria-current='page']:hover {
+  color: var(--retask-primary);
+}
+
+/* ---- Footer nav (prev / next pagination): more compact ---- */
+.pagination-links a {
+  padding: 0.7rem 0.9rem;
+  gap: 0.15rem;
+}
+/* "Previous" / "Next" label: small + muted, secondary to the page title */
+.pagination-links a > span {
+  font-size: var(--sl-text-xs);
+  color: var(--sl-color-gray-3);
+}
+.pagination-links a .link-title {
+  font-size: var(--sl-text-sm);
+  font-weight: 600;
+  color: var(--sl-color-white);
+}
+:root[data-theme='light'] .pagination-links a .link-title {
+  color: var(--retask-ink);
+}
+.pagination-links a svg {
+  width: 1.1rem;
+  height: 1.1rem;
+}
+
+/* ---- Callouts / asides (note, tip, caution, danger) ---- */
+.starlight-aside {
+  border-radius: 8px;
+  border-inline-start-width: 4px;
+  padding: 1rem 1.15rem;
+}
+.starlight-aside__title {
+  font-size: var(--sl-text-sm);
+  letter-spacing: 0.01em;
+}
+.starlight-aside--note {
+  background: var(--retask-primary-light);
+  border-color: var(--retask-primary);
+  color: var(--retask-ink);
+}
+:root[data-theme='dark'] .starlight-aside--note {
+  background: color-mix(in srgb, var(--retask-primary) 18%, transparent);
+  border-color: var(--retask-secondary);
+  color: var(--sl-color-gray-1);
+}
+:root[data-theme='dark'] .starlight-aside--note .starlight-aside__title {
+  color: var(--retask-secondary);
+}
+
+/* ---- Code blocks (Expressive Code frames) ---- */
+.expressive-code .frame {
+  border-radius: 0.5rem;
+}
+.expressive-code .frame .header {
+  font-weight: 600;
+}
+/* Inline code: subtle brand tint */
+.sl-markdown-content
+  :not(pre, .not-content *)
+  > code:not(:where(.not-content *)) {
+  background: var(--sl-color-accent-low);
+  border-radius: 5px;
+  padding: 0.15em 0.4em;
+}
+
+/* ---- LinkCard / Card grid: tiles ---- */
+.sl-markdown-content .card-grid {
+  gap: 1rem;
+}
+/* More breathing room between landing-page sections (card grid → next heading) */
+.sl-markdown-content .card-grid + .sl-heading-wrapper,
+.sl-markdown-content .card-grid + :is(h2, h3) {
+  margin-top: 4rem;
+}
+.card {
+  border-width: 1px;
+}
+/* LinkCard: make the whole tile feel clickable with a clear hover lift */
+.sl-link-card {
+  border-radius: 12px;
+  transition: border-color 0.15s ease, transform 0.15s ease,
+    box-shadow 0.15s ease;
+}
+.sl-link-card:hover {
+  border-color: var(--retask-secondary);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px -12px var(--retask-primary);
+}
+.sl-link-card .title {
+  color: var(--sl-color-white);
+}
+:root[data-theme='light'] .sl-link-card .title {
+  color: var(--retask-ink);
 }

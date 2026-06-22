@@ -12,7 +12,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 24
           cache: yarn
       - run: yarn install --frozen-lockfile
       - run: yarn test
@@ -24,15 +24,15 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 24
           cache: yarn
       - run: yarn install --frozen-lockfile
       - name: Install retask CLI
         run: |
           curl -fsSL https://retask.work/install.sh | sh
-          # install.sh drops the binary in one of these; expose whichever exists
+          # Non-root runner → install.sh installs to ~/.local/bin.
+          # Do not add /usr/local/bin: its node (22.x) would shadow Node 24 for gen:cli.
           echo "$HOME/.local/bin" >> "$GITHUB_PATH"
-          echo "/usr/local/bin" >> "$GITHUB_PATH"
       - name: Regenerate the CLI reference
         run: yarn gen:cli
       - name: Fail if the committed reference is stale
