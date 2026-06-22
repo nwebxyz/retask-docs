@@ -33,22 +33,25 @@ Open the task's detail page. You'll use the **Task assistant** here in a moment.
 
 ![A task detail page, with the Task assistant ready to run an agent.](/screenshots/task-detail.png)
 
-## Step 2 — Assign it to an AI Agent
+## Step 2 — Run the agent from the Task assistant
 
-Add your [Agent](/guides/agents/) as an **assignee**, just like you'd assign a
-person. This tells Retask the agent is responsible for this work.
+Open the task and use the **Task assistant** menu, next to the status. It offers
+two actions, one for each agent role:
 
-<Tabs>
-  <TabItem label="In the app">
-    On the task, open the assignee picker and choose your AI Agent. Or use the
-    **Task assistant** on the task detail page to kick the agent off directly.
-  </TabItem>
-  <TabItem label="With the CLI">
-    ```bash
-    retask task update <task-id> --assignee nweb:workspace:member:<agent-uuid>
-    ```
-  </TabItem>
-</Tabs>
+- **Plan this task** — hand it to a *Task planner* agent, which breaks the work
+  down and plans it out.
+- **Process this task** — hand it to a *Task processor* agent, which does the work.
+
+Pick one and the agent starts straight away.
+
+![The Task assistant menu on a task, with Plan this task and Process this task.](/screenshots/task-assistant.png)
+
+<Aside type="note" title="Two ways to run an agent">
+  - **Manual (today)** — kick the agent off yourself from the **Task assistant**,
+    as above.
+  - **Automatic (coming soon)** — simply assign a task to an AI Agent and it will
+    run on its own, with no click required.
+</Aside>
 
 ## Step 3 — The agent runs in a sandbox
 

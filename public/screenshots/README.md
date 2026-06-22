@@ -13,6 +13,7 @@ the equivalent screens.
 | -------------------------- | ----------------------------------------------------------------- | ------------------------------------------------------------ |
 | `tasks-board.png`          | `/w/nweb-corp:mock-ws-1/tasks`                                    | The All tasks list view.                                     |
 | `task-detail.png`          | `/w/nweb-corp:mock-ws-1/tasks/RWA-3`                              | A task detail page (description, subtasks, assignees, Task assistant). |
+| `task-assistant.png`       | `/w/nweb-corp:mock-ws-1/tasks/RWA-3` (open the **Task assistant** menu) | The Task assistant menu open, showing Plan this task / Process this task. |
 | `project-kanban.png`       | `/w/nweb-corp:mock-ws-1/projects/RWA`                            | A project Kanban board with its columns.                     |
 | `projects-list.png`        | `/w/nweb-corp:mock-ws-1/projects`                                | The projects list (admins, visibility).                      |
 | `sessions-list.png`        | `/w/nweb-corp:mock-ws-1/sessions`                                | The sessions list with status and last-active.               |
