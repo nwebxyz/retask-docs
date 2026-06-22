@@ -19,6 +19,15 @@ Windows (PowerShell):
 irm https://retask.work/install.ps1 | iex
 ```
 
+Check the installed version at any time with:
+
+```bash
+retask -v
+```
+
+To update to the latest release, run `retask upgrade`, then `retask -v` again to
+confirm the new version.
+
 ## Authenticate
 
 There are two ways to authenticate. Pick whichever fits.
