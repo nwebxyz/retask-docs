@@ -28,7 +28,10 @@ export default defineConfig({
           items: [
             { label: 'Getting started', slug: 'cli/getting-started' },
             { label: 'Core concepts', slug: 'cli/concepts' },
-            { label: 'Command reference', items: [{ autogenerate: { directory: 'cli/reference' } }] },
+            {
+              label: 'Command reference',
+              items: [{ autogenerate: { directory: 'cli/reference' } }],
+            },
           ],
         },
       ],

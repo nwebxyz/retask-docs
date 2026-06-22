@@ -20,6 +20,7 @@ retask sandbox connect <sandbox-id> --mode headless
 See the [CLI getting started guide](/cli/getting-started/) to install the CLI and authenticate first.
 
 Document in this page:
+
 - Creating a Cloud sandbox (type, template)
 - Connecting a Private VM end to end
 - Stopping and deleting sandboxes

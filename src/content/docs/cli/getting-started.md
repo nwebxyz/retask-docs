@@ -8,11 +8,13 @@ The Retask CLI (`retask`) drives the same API as the web app from your terminal 
 ## Install
 
 macOS / Linux:
+
 ```bash
 curl -fsSL https://retask.work/install.sh | sh
 ```
 
 Windows (PowerShell):
+
 ```powershell
 irm https://retask.work/install.ps1 | iex
 ```
@@ -20,6 +22,7 @@ irm https://retask.work/install.ps1 | iex
 ## Authenticate
 
 Set your Personal Access Token and workspace, then exchange the PAT for a JWT:
+
 ```bash
 export NWEB_API_KEY="nweb_pat_..."
 export NWEB_WORKSPACE_ID="ws_..."

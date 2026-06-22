@@ -6,15 +6,27 @@ const manifest: Manifest = {
   version: 'test',
   auth: { required_env: [], optional_env: [] },
   commands: [
-    { command: 'retask auth login', description: 'Log in', example: 'retask auth login' },
+    {
+      command: 'retask auth login',
+      description: 'Log in',
+      example: 'retask auth login',
+    },
     {
       command: 'retask auth pat create',
       description: 'Create PAT',
       flags: ['--name'],
       example: 'retask auth pat create --name x',
     },
-    { command: 'retask task list', description: 'List tasks', example: 'retask task list' },
-    { command: 'retask project-config get', description: 'Get config', example: 'retask project-config get <id>' },
+    {
+      command: 'retask task list',
+      description: 'List tasks',
+      example: 'retask task list',
+    },
+    {
+      command: 'retask project-config get',
+      description: 'Get config',
+      example: 'retask project-config get <id>',
+    },
   ],
 };
 
@@ -37,7 +49,11 @@ describe('groupTitle', () => {
 describe('renderAll', () => {
   it('groups commands by their group key', () => {
     const pages = renderAll(manifest);
-    expect([...pages.keys()].sort()).toEqual(['auth', 'project-config', 'task']);
+    expect([...pages.keys()].sort()).toEqual([
+      'auth',
+      'project-config',
+      'task',
+    ]);
   });
 
   it('renders frontmatter, command heading, flags, and an example block', () => {
@@ -56,7 +72,11 @@ describe('renderAll', () => {
   });
 
   it('preserves manifest order of groups', () => {
-    expect([...renderAll(manifest).keys()]).toEqual(['auth', 'task', 'project-config']);
+    expect([...renderAll(manifest).keys()]).toEqual([
+      'auth',
+      'task',
+      'project-config',
+    ]);
   });
 
   it('omits the Flags line when a command has no flags', () => {

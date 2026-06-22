@@ -4,6 +4,7 @@ description: Profiles, transport, output format, and NRNs in the Retask CLI.
 ---
 
 Document in this page:
+
 - **Profiles** — multiple endpoints/workspaces in `~/.config/retask/config.yaml` (`RETASK_PROFILE`)
 - **Transport** — gRPC by default; `NWEB_API_TRANSPORT=http` for Connect-over-HTTP (proxy auth in secure sandboxes)
 - **Output** — JSON-first; `--pretty` for tables; pipe to `jq`
