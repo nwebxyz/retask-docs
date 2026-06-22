@@ -3,7 +3,7 @@ title: Customer
 description: Customer commands for the Retask CLI.
 ---
 
-<!-- AUTO-GENERATED from `retask help-llm`. Do not edit by hand; run `npm run gen:cli`. -->
+<!-- AUTO-GENERATED from `retask help-llm`. Do not edit by hand; run `yarn gen:cli`. -->
 ## `retask customer profile get`
 
 Get your customer profile

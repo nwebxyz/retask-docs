@@ -3,7 +3,7 @@ title: Task
 description: Task commands for the Retask CLI.
 ---
 
-<!-- AUTO-GENERATED from `retask help-llm`. Do not edit by hand; run `npm run gen:cli`. -->
+<!-- AUTO-GENERATED from `retask help-llm`. Do not edit by hand; run `yarn gen:cli`. -->
 ## `retask task list`
 
 List tasks. --assignee is repeatable and accepts workspace_member_nrns (format: nweb:workspace:member:<uuid>, obtainable from retask auth whoami or retask workspace member list)

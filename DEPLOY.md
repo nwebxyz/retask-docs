@@ -7,7 +7,7 @@ Hosted on Cloudflare Pages, custom domain `docs.retask.work`.
 1. Create a Pages project connected to the `nwebxyz/retask-docs` GitHub repo.
 2. Build settings:
    - **Build command:**
-     `curl -fsSL https://retask.work/install.sh | sh && export PATH="$HOME/.local/bin:/usr/local/bin:$PATH" && npm ci && npm run gen:cli && npm run build`
+     `curl -fsSL https://retask.work/install.sh | sh && export PATH="$HOME/.local/bin:/usr/local/bin:$PATH" && yarn install --frozen-lockfile && yarn gen:cli && yarn build`
    - **Build output directory:** `dist`
    - **Node version:** 20 (set `NODE_VERSION=20` env var if needed)
 3. Add the custom domain `docs.retask.work` (CNAME to the Pages project) under the same
