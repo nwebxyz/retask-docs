@@ -7,7 +7,17 @@ export default defineConfig({
   integrations: [
     starlight({
       title: 'Retask Docs',
-      logo: { src: './src/assets/logo.svg', replacesTitle: true },
+      logo: {
+        light: './src/assets/logo-light.svg',
+        dark: './src/assets/logo-dark.svg',
+        replacesTitle: true,
+      },
+      head: [
+        {
+          tag: 'meta',
+          attrs: { name: 'theme-color', content: '#2442AF' },
+        },
+      ],
       customCss: ['./src/styles/brand.css'],
       sidebar: [
         {
