@@ -1,0 +1,79 @@
+---
+title: Integrations
+description: Connect GitHub and AI providers like Anthropic and OpenAI so your agents can work.
+---
+
+import { Aside, Steps, Tabs, TabItem } from '@astrojs/starlight/components';
+
+**Integrations** connect Retask to the outside services your agents rely on —
+your code host and your AI providers. They're worth setting up early, because a
+[sandbox template](/guides/sandboxes/#sandbox-templates) can't give an agent
+access to your repositories or an AI model until the matching integration is
+connected.
+
+Typical integrations include:
+
+- **GitHub** — so agents can clone and work on your repositories.
+- **Anthropic** — the API key that powers Claude-based agents.
+- **OpenAI** — the API key that powers Codex-based agents.
+
+## Connect a provider
+
+You manage integrations under **Settings → Integrations**. They can be connected
+at two levels:
+
+- **Workspace level** — shared by the whole workspace.
+- **User level** — tied to your own account.
+
+<Steps>
+
+1. Go to **Settings → Integrations** and find the provider you want.
+
+2. Connect it — usually by authorizing access (GitHub) or pasting an access token
+   or API key (Anthropic, OpenAI).
+
+3. Choose the level (workspace or user) you want it available at.
+
+</Steps>
+
+## Your keys are safe
+
+Retask encrypts your secrets and stores them in a secure database. Only a limited
+set of services can access them, and only when they're actually needed to run a
+session.
+
+For **Cloud sandboxes**, you also choose a **credential mode** that controls
+*how* those secrets reach the agent — including a recommended mode that keeps your
+real keys out of the agent's reach entirely. See
+[Credential modes](/guides/sandboxes/#credential-modes-cloud-only) in the
+Sandboxes guide.
+
+## Use an integration
+
+Once connected, an integration becomes available to your sandbox templates. For
+example, with GitHub connected you can add repositories to a template, and with
+an Anthropic or OpenAI key connected your agents can call the model.
+
+<Tabs>
+  <TabItem label="With the CLI">
+    ```bash
+    # See available providers and what's connected
+    retask integration list
+
+    # Connect a provider with an access token
+    retask integration connect <provider> --access-token <token> --level workspace
+    ```
+  </TabItem>
+</Tabs>
+
+## Remove an integration
+
+Disconnect a provider when you no longer need it, or to revoke access. Templates
+that relied on it will stop working until you reconnect, so check what depends on
+it first.
+
+<Aside type="note">
+  Removing an integration in Retask doesn't revoke the underlying token on the
+  provider's side. To fully revoke access, also delete the token in GitHub,
+  Anthropic, or OpenAI.
+</Aside>

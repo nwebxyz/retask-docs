@@ -1,0 +1,79 @@
+---
+title: Sessions
+description: What a session is, how to watch one live, and how to start one yourself.
+---
+
+import { Aside, Steps, Tabs, TabItem } from '@astrojs/starlight/components';
+
+A **session** is one individual run of an agent inside a
+[sandbox](/guides/sandboxes/) — a single attempt at some work. If the sandbox is
+the agent's computer, a session is one work session at that computer.
+
+The thing that makes sessions useful: each one has a **live terminal** you can
+watch in real time. You see exactly what the agent is doing as it does it, and
+the session is kept afterward as a record you can review.
+
+![The sessions list, showing each session's sandbox, status, and last activity.](/screenshots/sessions-list.png)
+
+## Session status
+
+Open **Sessions** in the sidebar to see them all. Each session shows which
+sandbox it's running in and its current state:
+
+- **Active** — running right now.
+- **Idle** — alive but waiting (for example, between steps or for input).
+- **Stopped** — finished or manually ended.
+
+You can filter the list by status or by sandbox to find the run you care about.
+
+## Watch a session
+
+Click a session to open its **live terminal**. Here you can follow the agent's
+output line by line, see the commands it runs, and step in if it needs a nudge.
+Because the transcript is kept, you can reopen a finished session later to review
+what happened.
+
+![A session's live terminal view.](/screenshots/session-detail.png)
+
+<Aside type="tip">
+  Watching a session is the best way to build trust in a new agent. Run it on a
+  small task and read along — you'll quickly learn what it does well and where it
+  needs clearer instructions.
+</Aside>
+
+## Start a session
+
+Most of the time a session starts automatically when you assign a task to an AI
+Agent (see [Run an AI Agent on a task](/guides/run-agent-on-task/)). You can also
+start one yourself against a sandbox — handy for exploratory or one-off work.
+
+A session can be **seeded** with a starting point so the agent knows what to do
+the moment it begins:
+
+- **Seed prompt** — a plain-text instruction, like "fix the failing tests".
+- **Seed task** — a link to a task, so the agent works from that task's details.
+
+<Tabs>
+  <TabItem label="In the app">
+    Click **Session** at the top of the app (or **New session** from the Sessions
+    view), choose the sandbox to run in, and give it a starting prompt or task.
+  </TabItem>
+  <TabItem label="With the CLI">
+    ```bash
+    # Start a session against a sandbox
+    retask sandbox session create --sandbox-id <sandbox-id>
+
+    # Seed it with a prompt or a task (NRN)
+    retask sandbox session update <id> --seed-prompt "Fix the failing tests"
+
+    # List or stop sessions
+    retask sandbox session list --sandbox-id <sandbox-id>
+    retask sandbox session stop <session-id>
+    ```
+  </TabItem>
+</Tabs>
+
+<Aside type="note">
+  Stopping a session ends that run but keeps its transcript. Deleting a session
+  removes the record for good.
+</Aside>

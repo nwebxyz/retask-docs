@@ -1,0 +1,112 @@
+---
+title: Agents
+description: Configure AI Agents that pick up tasks and run inside sandboxes.
+---
+
+import { Aside, Steps, Tabs, TabItem } from '@astrojs/starlight/components';
+
+An **AI Agent** is a worker you can assign tasks to, just like a teammate —
+except it's powered by a coding AI. You configure one once by filling in a form,
+and from then on you can hand it work and watch it run.
+
+Everything an agent needs lives on the agent itself — its role, when it runs,
+which integrations it can use, and how its environment starts up. There's no
+separate "template" to attach; you fill in the details directly when you create
+the agent.
+
+## Where agents live
+
+Agents appear right alongside your human teammates under **Settings → Members**,
+on the **Agents** tab. That's deliberate — to Retask, an agent is just another
+member of the workspace that happens to be a machine. The tab has two parts:
+
+- **Workspace agents** — the agents you've added, each with a permission level
+  and any connected integrations.
+- **Available agents** — a catalog of ready-made agents you can add with one
+  click, plus a **New agent** button to build your own.
+
+![The Agents tab, showing workspace agents and a catalog of available agents.](/screenshots/settings-agents.png)
+
+## Create an agent
+
+Go to **Settings → Members → Agents** and click **New agent**. The form has a
+**Basic** tab for the essentials and an **Advanced** tab for fine-tuning.
+
+### Basic
+
+<Steps>
+
+1. **Name** and an optional **description** — give it a clear name like
+   "Claude · Web" so you know what it's for.
+
+2. **Role** — choose what kind of worker it is:
+   - **Task processor** — acts on a task when its status changes.
+   - **Task planner** — plans and assigns tasks automatically.
+
+3. **Trigger** — when the agent runs. For example, *Manual — triggered when a
+   task is assigned to this agent*.
+
+4. **Execution target** — which sandbox the agent runs in. *Run on any available
+   sandbox* is the simplest choice.
+
+5. **Integrations** — connect the services the agent needs (see
+   [Integrations](/guides/integrations/)).
+
+6. **Agent prompt** — optional text added to the agent's system prompt to steer
+   how it works.
+
+</Steps>
+
+### Advanced
+
+The Advanced tab is optional — the defaults work for most agents. It lets you
+set:
+
+- **Sandbox startup command** — runs once when the sandbox boots (for example,
+  `yarn install && yarn generate`).
+- **Shutdown policy** — when the sandbox shuts down (for example, *Smart shutdown*).
+- **Session system prompt** — keep Retask's default (recommended, so the agent
+  knows how to interact with Retask) and optionally append your own.
+- **Session init command** — runs at the start of each session.
+
+<Aside type="tip">
+  Keep the default system prompt unless you have a specific reason not to — it's
+  what teaches the agent how to fetch task details, post updates, and open pull
+  requests. Replacing it can break the agent's workflow.
+</Aside>
+
+## Put an agent to work
+
+Once an agent exists, open a task and run it from the **Task assistant** menu:
+**Plan this task** uses a *Task planner* agent, **Process this task** uses a
+*Task processor* agent. The agent runs inside a sandbox and opens a session you
+can watch live. The full walkthrough is in
+[Run an AI Agent on a task](/guides/run-agent-on-task/).
+
+<Aside type="note">
+  Running an agent automatically as soon as it's assigned a task is coming soon.
+  For now, start it yourself from the Task assistant.
+</Aside>
+
+## Edit or remove an agent
+
+From the **Agents** tab you can edit an agent's settings, change its permission,
+or remove it. Removing an agent stops it from being assigned new work; the tasks
+and sessions it already produced stay put.
+
+<Tabs>
+  <TabItem label="With the CLI">
+    ```bash
+    retask agent list
+    retask agent create --name "Claude · Web" --role ROLE_TASK_PROCESSOR
+    retask agent update <id> --name "New Name"
+    retask agent delete <id>
+    ```
+  </TabItem>
+</Tabs>
+
+<Aside type="caution">
+  An agent can do real work on your code with the integrations you give it. Grant
+  only what it needs, and try a new agent on a small, low-risk task first so you
+  can see how it behaves.
+</Aside>

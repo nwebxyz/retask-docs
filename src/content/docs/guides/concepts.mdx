@@ -1,0 +1,145 @@
+---
+title: Concepts
+description: A plain-language tour of the building blocks in Retask — workspaces, projects, tasks, agents, sandboxes, templates, and sessions.
+---
+
+import { Aside, CardGrid, LinkCard } from '@astrojs/starlight/components';
+
+Retask is a task manager with **AI Agents built in**. The idea in one line:
+*you do what matters, and AI Agents do the rest.*
+
+In most setups, your to-do list lives in one tool (Jira, Linear, a notebook) and
+the AI that actually does the work lives somewhere else (Claude Code, Codex,
+Cursor). The two never really talk, so every time an agent runs you re-explain
+the work and rebuild its environment from scratch. Retask puts both in one place:
+the **task** is the record of what needs doing, and an **AI Agent** can pick it
+up and do it inside a safe, reproducible workspace.
+
+This page explains the handful of words you'll see everywhere in Retask. You
+don't need to be technical to follow it — read it top to bottom once and the
+rest of the guides will make sense.
+
+## How the pieces fit together
+
+Think of it as a set of nested containers, plus the "engine" that does the work:
+
+- A **Workspace** is your whole account. It holds everything below.
+  - **Workspace Members** are the people (and agents) who can see and work in it.
+  - **Projects** group related work — usually one project per app, product, or area.
+    - **Tasks** are the individual pieces of work inside a project.
+- To get work *done automatically*, Retask adds three more pieces:
+  - An **Agent** is an AI worker you can assign a task to.
+  - A **Sandbox** is a live, isolated environment where the agent runs.
+    - A **Session** is one individual run of an agent inside a sandbox.
+  - A **Sandbox Template** is a reusable recipe for building sandboxes.
+
+The short version: **a Task says what to do. An Agent does it. The Sandbox is
+where it works. A Session is one attempt.**
+
+<Aside type="tip" title="Who Retask is for">
+  Retask is aimed at solo developers and small engineering teams running AI
+  agents on real work. If you've ever wished your ticket and the AI doing the
+  ticket lived in the same place, that's the gap Retask fills.
+</Aside>
+
+## The concepts, one by one
+
+### Workspace
+
+Your top-level home in Retask. A workspace holds your projects, your people,
+your billing, and your settings. Most teams have exactly one. If you consult for
+several clients, you might keep a separate workspace per client so nothing mixes.
+
+*In the app:* the workspace name and switcher sit at the top of the screen.
+
+### Workspace Member
+
+Anyone you invite into a workspace. Each member has a **role** that controls what
+they can do:
+
+- **Owner** — full control, including billing and deleting the workspace.
+- **Admin** — manage members, projects, and settings.
+- **Editor** — create and change projects and tasks.
+- **Viewer** — look but don't touch (read-only).
+
+Agents also show up alongside people in the members area, under their own tab —
+they're workers in the workspace, just not human ones.
+
+### Project
+
+A container for related tasks — typically one per app, service, or area of work
+(for example, "Retask Web App" or "Mobile App"). Each project has its own board,
+its own set of statuses, and its own members. You can keep a project **private**
+to specific people or open it to the whole workspace.
+
+*In the app:* a project opens to a **Kanban board** — columns like Todo, In
+Progress, In Preview, and Done, with task cards you drag between them.
+
+### Task
+
+The single most important concept. A task is one piece of work — a feature, a
+bug, a chore. It has a title, a description, a status, a priority, assignees, an
+optional due date, and a short **key** like `RWA-3` that everyone can refer to.
+
+What makes a Retask task special: it's not just a sticky note. A task can be
+**handed to an AI Agent**, which goes off and does the work and reports back to
+that same task. The task is the durable record — the "contract" — that survives
+long after any single agent run ends.
+
+### Agent
+
+An AI worker you can assign tasks to, the same way you'd assign a teammate. You
+set one up by filling in a short form: a name, a **role** (for example, a task
+processor), when it runs, which integrations it can use, and how its environment
+starts. Everything the agent needs lives on the agent itself — there's no
+separate template to attach. Behind the scenes it's powered by a coding AI such
+as Claude Code or Codex; you configure it once and then just hand it work.
+
+### Sandbox Template
+
+The reusable **recipe** for an agent's work environment. A template says: which
+code repositories to pull in, which environment variables and secrets to set,
+and which tools to start. For example, a template named "Claude Code · Retask
+web" might clone two repositories, install dependencies, and launch the agent
+ready to go.
+
+Set up a template once, and every sandbox built from it starts out identical —
+so agents get a clean, predictable environment every single time.
+
+### Sandbox
+
+A live, isolated environment where agents actually run, built from a template.
+It's like giving the agent its own private computer that's walled off from
+everything else, so your code and credentials are never shared between
+workspaces. Retask offers two kinds:
+
+- **Cloud sandbox** — created and managed for you by Retask.
+- **Private VM** — your own machine, connected to Retask with the CLI.
+
+A sandbox can host several sessions and can be running, idle, or stopped.
+
+### Session
+
+One individual run of an agent inside a sandbox — a single attempt at some work.
+A session has a **live terminal** you can watch in real time, so you can see
+exactly what the agent is doing and step in if needed. When it's finished, the
+session sticks around as a record you can review later.
+
+A session can be **seeded** with a starting point — either a prompt ("fix the
+login bug") or a link to a task — so the agent knows what it's working on the
+moment it starts.
+
+## Where to go next
+
+<CardGrid>
+  <LinkCard
+    title="Getting started"
+    href="/guides/getting-started/"
+    description="Create your workspace and first project, then invite your team and an AI Agent."
+  />
+  <LinkCard
+    title="Run an AI Agent on a task"
+    href="/guides/run-agent-on-task/"
+    description="The end-to-end flow: task → agent → sandbox → session → result."
+  />
+</CardGrid>
