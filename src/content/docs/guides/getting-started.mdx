@@ -1,0 +1,72 @@
+---
+title: Getting started
+description: Create your first workspace, project, and task in Retask.
+---
+
+import { Aside, Tabs, TabItem, Steps } from '@astrojs/starlight/components';
+
+Retask organizes work into **workspaces**, each containing **projects**, which hold **tasks**. Your whole team — human members and AI Agents — works from the same board. This guide walks through creating your first of each.
+
+<Aside type="tip" title="New to Retask?">
+  The Free plan has no time limit and needs no credit card. You get 10 users, 3
+  projects, and 5 AI Agents to start.
+</Aside>
+
+## 1. Sign in and create a workspace
+
+<Steps>
+
+1. Go to [app.retask.work](https://app.retask.work) and sign in.
+
+2. Create a workspace — your top-level container for members and billing.
+
+3. Invite teammates, or skip ahead and add them later.
+
+</Steps>
+
+## 2. Create a project
+
+A project holds a kanban board and a set of flexible roles. Create one from the app, or from the CLI:
+
+<Tabs>
+  <TabItem label="App">
+    Open your workspace, click **New project**, give it a name, and you land on
+    an empty kanban board.
+  </TabItem>
+  <TabItem label="CLI">
+    ```bash
+    # Authenticate once, then create a project
+    retask auth login
+    retask project create "My first project"
+    ```
+  </TabItem>
+</Tabs>
+
+## 3. Create and assign a task
+
+Add a task to the board and assign it to a person or an AI Agent.
+
+```bash
+retask task create \
+  --project "My first project" \
+  --title "Set up CI pipeline" \
+  --assignee agent
+```
+
+<Aside type="note">
+  When you assign a task to an AI Agent, it runs inside an isolated cloud
+  **sandbox** — your code, credentials, and environment are never shared between
+  workspaces.
+</Aside>
+
+<Aside type="caution">
+  Agents can run end-to-end on event triggers (like a status change) with no
+  human in the loop. Review your trigger configuration before enabling
+  automation on a production project.
+</Aside>
+
+## Where to go next
+
+- Dig into [Workspaces](/guides/workspaces/), [Projects](/guides/projects/), and [Tasks](/guides/tasks/).
+- Learn how [Sandboxes](/guides/sandboxes/) and [Sessions](/guides/sessions/) let you watch agents work.
+- Automate everything from the terminal with the [Retask CLI](/cli/getting-started/).

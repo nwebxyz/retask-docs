@@ -3,26 +3,86 @@ title: Retask documentation
 description: Guides for using Retask and the Retask CLI to manage workspaces, projects, tasks, sandboxes, and agents.
 template: splash
 hero:
-  image:
-    file: ../../assets/retask-icon.svg
-  tagline: Manage workspaces, projects, tasks, sandboxes, and agents — in the app or from your terminal.
+  tagline: Manage workspaces, projects, tasks, sandboxes, and agents — in the app or from your terminal. Humans and AI Agents ship from the same board.
   actions:
     - text: Get started
       link: /guides/getting-started/
       icon: right-arrow
     - text: Retask CLI
       link: /cli/getting-started/
-      variant: minimal
+      icon: laptop
+      variant: secondary
 ---
 
-import { Card, CardGrid } from '@astrojs/starlight/components';
+import { Card, CardGrid, LinkCard } from '@astrojs/starlight/components';
+
+## Start here
 
 <CardGrid>
   <Card title="Product guides" icon="open-book">
-    Learn Retask feature by feature — [start here](/guides/getting-started/).
+    Learn Retask feature by feature, from your first workspace to automated
+    agents. [Begin with the basics](/guides/getting-started/).
   </Card>
   <Card title="Retask CLI" icon="seti:shell">
-    Drive Retask from your terminal and connect a Private VM — [CLI
-    docs](/cli/getting-started/).
+    Drive Retask from your terminal, script your workflow, and connect a Private
+    VM. [Open the CLI docs](/cli/getting-started/).
+  </Card>
+</CardGrid>
+
+## Explore the product
+
+<CardGrid>
+  <LinkCard
+    title="Workspaces"
+    href="/guides/workspaces/"
+    description="Your top-level container for teams, billing, and members."
+  />
+  <LinkCard
+    title="Projects"
+    href="/guides/projects/"
+    description="Group work into projects with a kanban board and flexible roles."
+  />
+  <LinkCard
+    title="Tasks"
+    href="/guides/tasks/"
+    description="Create, assign, and track work for people or AI Agents."
+  />
+  <LinkCard
+    title="Sandboxes"
+    href="/guides/sandboxes/"
+    description="Isolated cloud environments where agents run your work safely."
+  />
+  <LinkCard
+    title="Sessions"
+    href="/guides/sessions/"
+    description="Watch agents work in a live terminal and step in when needed."
+  />
+  <LinkCard
+    title="Agents"
+    href="/guides/agents/"
+    description="Configure AI Agents and trigger them manually or on events."
+  />
+  <LinkCard
+    title="Integrations"
+    href="/guides/integrations/"
+    description="Two-way sync with Jira, Linear, and GitHub."
+  />
+  <LinkCard
+    title="Command reference"
+    href="/cli/reference/auth/"
+    description="Every Retask CLI command, generated from the CLI itself."
+  />
+</CardGrid>
+
+## From the command line
+
+<CardGrid>
+  <Card title="Install & authenticate" icon="rocket">
+    Get the CLI on your machine and sign in. [CLI getting
+    started](/cli/getting-started/).
+  </Card>
+  <Card title="Core concepts" icon="puzzle">
+    How workspaces, projects, and sandboxes map to CLI commands. [Core
+    concepts](/cli/concepts/).
   </Card>
 </CardGrid>

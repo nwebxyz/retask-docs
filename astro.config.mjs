@@ -18,6 +18,21 @@ export default defineConfig({
           attrs: { name: 'theme-color', content: '#2442AF' },
         },
       ],
+      // Cloudflare-style top nav lives inside our SocialIcons override.
+      components: {
+        SocialIcons: './src/components/SocialIcons.astro',
+      },
+      // Code blocks: framed, copy button, brand-matched light/dark themes.
+      expressiveCode: {
+        themes: ['github-dark', 'github-light'],
+        styleOverrides: {
+          borderRadius: '0.5rem',
+          borderColor: 'var(--sl-color-gray-5)',
+          frames: {
+            shadowColor: 'transparent',
+          },
+        },
+      },
       customCss: ['./src/styles/brand.css'],
       sidebar: [
         {

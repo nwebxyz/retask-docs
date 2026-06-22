@@ -1,0 +1,33 @@
+---
+/**
+ * Override of Starlight's SocialIcons to provide a Cloudflare-docs-style top nav.
+ * Renders Retask product links + an "Open app" CTA. All open in a new tab.
+ * (We intentionally do not render the default social icons here.)
+ */
+const navLinks = [
+  { label: 'Home', href: 'https://retask.work/' },
+  { label: 'Pricing', href: 'https://retask.work/pricing' },
+];
+---
+
+<nav class="retask-topnav" aria-label="Retask">
+  {
+    navLinks.map((link) => (
+      <a
+        class="retask-topnav__link"
+        href={link.href}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        {link.label}
+      </a>
+    ))
+  }
+</nav>
+
+<a
+  class="retask-topnav__cta"
+  href="https://app.retask.work"
+  target="_blank"
+  rel="noopener noreferrer">Open app</a
+>
