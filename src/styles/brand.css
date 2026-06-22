@@ -1,19 +1,13 @@
-/* Self-hosted Inter — matches the marketing site */
-@import '@fontsource-variable/inter';
+/* Self-hosted Plus Jakarta Sans — matches the marketing site (retask.work) */
+@import '@fontsource-variable/plus-jakarta-sans';
 
+/* ---- Retask brand tokens (from ui/theme/brandTokens) ---- */
 :root {
-  /* Brand fonts */
-  --sl-font: 'Inter Variable', system-ui, -apple-system, sans-serif;
+  --retask-primary: #2442af;
+  --retask-primary-light: #dce7fa;
+  --retask-secondary: #87bfff;
+  --retask-ink: #0f1f4a;
 
-  /* Retask brand accent (green #035A4B) mapped to Starlight accent scale */
-  --sl-color-accent-low: #07261f;
-  --sl-color-accent: #035a4b;
-  --sl-color-accent-high: #9fd6c9;
-}
-
-/* Light theme: nudge accent toward the marketing blue for links on white */
-:root[data-theme='light'] {
-  --sl-color-accent-low: #c9daff;
-  --sl-color-accent: #1f5fd6; /* readable variant of #377DFF on white */
-  --sl-color-accent-high: #0a2a66;
+  /* Brand font everywhere; code stays on Starlight's mono stack */
+  --sl-font: 'Plus Jakarta Sans Variable', system-ui, -apple-system, sans-serif;
 }
