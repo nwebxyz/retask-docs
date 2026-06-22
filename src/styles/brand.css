@@ -61,13 +61,18 @@
 }
 
 /* ---- Light visual polish (echoes retask.work) ---- */
-/* Primary CTA buttons (e.g. hero "Get started") */
+/* Primary CTA buttons (e.g. hero "Get started") — white text in both modes */
 .sl-link-button.primary {
   background: var(--retask-primary);
+  color: #fff;
   border-radius: 10px;
 }
+.sl-link-button.primary:hover {
+  color: #fff;
+  background: #3358d4; /* dark mode: lighten on hover */
+}
 :root[data-theme='light'] .sl-link-button.primary:hover {
-  background: var(--retask-ink);
+  background: var(--retask-ink); /* light mode: darken on hover */
 }
 
 /* Cards on the homepage and in guides */
