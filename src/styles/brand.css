@@ -11,3 +11,17 @@
   /* Brand font everywhere; code stays on Starlight's mono stack */
   --sl-font: 'Plus Jakarta Sans Variable', system-ui, -apple-system, sans-serif;
 }
+
+/* ---- Accent palette: dark mode (Starlight default :root) ---- */
+:root {
+  --sl-color-accent-low: #16306f;
+  --sl-color-accent: #2f54c9;
+  --sl-color-accent-high: #9dbeff; /* links/text on dark — lightened for contrast */
+}
+
+/* ---- Accent palette: light mode ---- */
+:root[data-theme='light'] {
+  --sl-color-accent-low: #dce7fa;
+  --sl-color-accent: #2442af; /* brand primary — links, active sidebar item */
+  --sl-color-accent-high: #16306f;
+}
