@@ -25,3 +25,37 @@
   --sl-color-accent: #2442af; /* brand primary — links, active sidebar item */
   --sl-color-accent-high: #16306f;
 }
+
+/* ---- Balanced heading scale (docs-friendly, not marketing-sized) ---- */
+:root {
+  --sl-line-height-headings: 1.25;
+  --sl-text-h1: 2rem; /* 32px (was 4xl/35px on mobile) */
+  --sl-text-h2: 1.5rem; /* 24px */
+  --sl-text-h3: 1.25rem; /* 20px */
+  --sl-text-h4: 1.125rem; /* 18px */
+  --sl-text-h5: 1rem;
+}
+
+/* Re-assert at the breakpoint where Starlight bumps h1 to 5xl (42px) */
+@media (min-width: 50em) {
+  :root {
+    --sl-text-h1: 2rem;
+    --sl-text-h2: 1.5rem;
+    --sl-text-h3: 1.25rem;
+    --sl-text-h4: 1.125rem;
+    --sl-text-h5: 1rem;
+  }
+}
+
+/* Heading weight + tracking to match the brand voice */
+.sl-markdown-content :is(h1, h2, h3, h4),
+.content-panel h1 {
+  font-weight: 700;
+  letter-spacing: -0.018em;
+}
+
+/* Splash homepage hero title — give it a dedicated, smaller clamp */
+.hero h1 {
+  font-size: clamp(2rem, 1.2rem + 3vw, 3rem);
+  letter-spacing: -0.02em;
+}
