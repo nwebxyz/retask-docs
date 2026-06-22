@@ -18,9 +18,9 @@ The journey in one line:
 <Aside type="note" title="Before you start">
   This walkthrough assumes you've already done the one-time setup:
   connected your providers under [Integrations](/guides/integrations/), created a
-  [Sandbox Template](/guides/sandboxes/#sandbox-templates), and added an
-  [Agent](/guides/agents/) that uses it. If not, follow those links first — it
-  only takes a few minutes.
+  [Sandbox](/guides/sandboxes/) for the agent to run in, and added an
+  [Agent](/guides/agents/). If not, follow those links first — it only takes a
+  few minutes.
 </Aside>
 
 ## Step 1 — Pick or create a task
@@ -50,12 +50,13 @@ person. This tells Retask the agent is responsible for this work.
   </TabItem>
 </Tabs>
 
-## Step 3 — The agent spins up a sandbox
+## Step 3 — The agent runs in a sandbox
 
-When the agent starts, it builds (or reuses) a [sandbox](/guides/sandboxes/) from
-its linked template. The sandbox clones your code, loads its secrets, and starts
-the agent's tools — a clean, isolated environment every time. You don't have to
-do anything here; it happens automatically.
+When the agent starts, it runs inside one of your available
+[sandboxes](/guides/sandboxes/) — the isolated environment that holds your code,
+secrets, and tools. The agent's startup command prepares the environment, then it
+gets to work. You don't have to do anything here; it happens automatically based
+on the agent's execution target.
 
 ## Step 4 — Watch the session live
 
