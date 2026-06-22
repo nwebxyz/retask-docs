@@ -1,5 +1,7 @@
 # retask-docs
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
 Public documentation for [Retask](https://retask.work) and the Retask CLI, published at https://docs.retask.work.
 
 ## Develop
@@ -22,3 +24,11 @@ yarn gen:cli   # requires the `retask` CLI on PATH
 
 CI fails if the committed reference is stale; the production build regenerates from
 the latest released CLI.
+
+## Contributing
+
+Contributions are welcome — see [CONTRIBUTING.md](CONTRIBUTING.md).
+
+## License
+
+Released under the [MIT License](LICENSE). Copyright (c) 2026 nweb.
