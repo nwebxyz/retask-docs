@@ -1,0 +1,110 @@
+---
+title: Tasks
+description: Create, assign, and track tasks — and hand them to people or AI Agents.
+---
+
+import { Aside, Steps, Tabs, TabItem } from '@astrojs/starlight/components';
+
+A **task** is one piece of work inside a project — a feature, a bug, or a chore.
+It's the heart of Retask: a task isn't just a note, it's something you can hand
+to a teammate *or* to an AI Agent, and it stays as the durable record of that
+work.
+
+Every task has a short **key** like `RWA-3` (the project prefix plus a number) so
+anyone can refer to it unambiguously.
+
+![The All tasks view, listing tasks with status, priority, assignee, and dates.](/screenshots/tasks-board.png)
+
+## Anatomy of a task
+
+Open any task to see its detail page. A task carries:
+
+- **Title** — a short summary of the work.
+- **Description** — the details, context, and what "done" looks like.
+- **Status** — where it is in the workflow (Todo, In Progress, In Review, Done…).
+- **Priority** — Urgent, High, Medium, or Low.
+- **Type** — the kind of work, e.g. Story, Bug, or Task.
+- **Assignees** — the people or agents responsible. A task can have more than one.
+- **Reporter** — who raised it.
+- **Due date** — an optional deadline.
+- **Subtasks** — smaller checklist items that break the work down.
+- **Attachments** — files related to the task.
+
+![A task detail page with description, subtasks, status, priority, and assignees.](/screenshots/task-detail.png)
+
+<Aside type="tip">
+  Notice the **Task assistant** on the task detail page — it's the quickest way
+  to put an AI Agent to work on that specific task. See
+  [Run an AI Agent on a task](/guides/run-agent-on-task/).
+</Aside>
+
+## Create a task
+
+<Tabs>
+  <TabItem label="In the app">
+    Click **+ Task** at the top of the app (or **+ Add task** in any Kanban
+    column). Fill in a title and description, set the status, priority, and type,
+    pick assignees, and optionally a due date. Save, and it lands on the board.
+  </TabItem>
+  <TabItem label="With the CLI">
+    ```bash
+    retask task create \
+      --project-id <id> \
+      --title "Fix login bug" \
+      --description "Users see a blank screen when their token expires" \
+      --priority HIGH
+    ```
+  </TabItem>
+</Tabs>
+
+## Assign a task
+
+Set one or more **assignees** to say who's responsible. Assignees can be human
+members *or* AI Agents — both appear in the same picker.
+
+- Assign to a **person** when a human should do the work.
+- Assign to an **AI Agent** to have it run automatically inside a sandbox. This
+  is what makes Retask different from an ordinary task tracker — see
+  [Run an AI Agent on a task](/guides/run-agent-on-task/).
+
+## Track and find tasks
+
+There are two main ways to view tasks:
+
+- The **All tasks** view (and each project's **Tasks** tab) lists tasks as rows
+  you can sort and filter.
+- The project **Kanban** board shows tasks as cards grouped by status.
+
+Both views share the same filters across the top — narrow by **project, type,
+assignee, status,** and **priority**, or type into the search box to find a task
+by title or key.
+
+<Tabs>
+  <TabItem label="In the app">
+    Drag a card between Kanban columns to change status, or change status,
+    priority, and assignee inline right from the list.
+  </TabItem>
+  <TabItem label="With the CLI">
+    ```bash
+    # List urgent tasks assigned to a specific member
+    retask task list --priority URGENT --assignee nweb:workspace:member:<uuid>
+
+    # Look up a task by its key
+    retask task get-by-key RWA-3
+
+    # Move a task forward (only the flags you set change)
+    retask task update <id> --status <status-id> --priority HIGH
+    ```
+  </TabItem>
+</Tabs>
+
+## Subtasks and attachments
+
+Break larger work into **subtasks** — a checklist on the task detail page — so
+progress is easy to see. Attach files (designs, logs, specs) to keep everything
+related to the work in one place.
+
+<Aside type="note">
+  Deleting a task is permanent. If you just want it off the board, move it to a
+  done or cancelled status instead.
+</Aside>

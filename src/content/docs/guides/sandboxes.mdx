@@ -1,0 +1,125 @@
+---
+title: Sandboxes
+description: Set up sandbox templates and sandboxes — the environments where agents run.
+---
+
+import { Aside, Steps, Tabs, TabItem } from '@astrojs/starlight/components';
+
+A **sandbox** is an isolated environment where Retask agents do their work —
+think of it as a private computer for the agent, walled off so your code and
+credentials are never shared between workspaces. A **sandbox template** is the
+reusable recipe a sandbox is built from.
+
+You'll find both under **Dev Sandboxes** in the sidebar, split into **Sandboxes**
+and **Templates**.
+
+The usual order is: **build a template once**, then **spin up sandboxes from it**
+whenever agents need to run.
+
+## Sandbox templates
+
+A template captures everything an agent's environment needs, so every sandbox
+built from it starts out identical and predictable. A template defines:
+
+- **Repositories** — the code to clone into the environment.
+- **Environment variables and secrets** — API keys, tokens, and config the agent
+  needs (for example, an Anthropic or OpenAI key).
+- **Startup steps** — what to install and run, and how to launch the agent.
+
+In the sample workspace, templates like "Claude Code · Retask web" clone two
+repositories, install dependencies, generate code, and launch the agent ready to
+work.
+
+![The sandbox templates list, each showing its repos and environment variables.](/screenshots/sandbox-templates.png)
+
+### Create a template
+
+<Steps>
+
+1. Go to **Dev Sandboxes → Templates** and click **New template**.
+
+2. Give it a descriptive name (for example, the AI plus the project it targets).
+
+3. Add the **repositories** the agent should work on.
+
+4. Add the **environment variables and secrets** it needs. Connect providers
+   like GitHub, Anthropic, and OpenAI first under
+   [Integrations](/guides/integrations/) so the right credentials are available.
+
+5. Define the **startup steps** that prepare the environment and launch the agent.
+
+</Steps>
+
+<Aside type="tip">
+  Keep one template per (AI + project) combination. It makes agents predictable
+  and means a new sandbox is always one click away.
+</Aside>
+
+## Sandboxes
+
+A sandbox is a live environment created from a template. Each one shows its
+**status** (Running, Ready, Idle, or Stopped), whether it's **shared**, and how
+many **sessions** it's hosting. A single sandbox can run several sessions at once.
+
+![The sandboxes list with status, sharing, and session counts.](/screenshots/sandboxes-list.png)
+
+Retask supports two kinds of sandbox:
+
+### Cloud sandboxes
+
+Created and managed for you by Retask. Pick a template and the platform
+provisions the environment — nothing to install on your side.
+
+<Tabs>
+  <TabItem label="In the app">
+    Go to **Dev Sandboxes → Sandboxes**, click **New sandbox**, choose **Cloud**,
+    and pick the template to build from.
+  </TabItem>
+  <TabItem label="With the CLI">
+    ```bash
+    retask sandbox create --name my-sandbox --type CLOUD --template-id <template-id>
+    ```
+  </TabItem>
+</Tabs>
+
+### Private VM
+
+A Private VM is your own machine, connected to Retask so agents can run on it —
+useful when work needs local hardware, specific software, or network access only
+your machine has. You connect it using the [Retask CLI](/cli/getting-started/):
+
+```bash
+retask sandbox connect <sandbox-id> --mode headless
+```
+
+The connection is long-running: the command keeps your machine attached as a
+sandbox until you stop it. In the sample workspace, "Tan's MacBook" and "Home
+workstation" are Private VM sandboxes.
+
+<Aside type="note">
+  You'll need the CLI installed and authenticated first. The
+  [CLI getting started guide](/cli/getting-started/) walks through both.
+</Aside>
+
+## Manage sandboxes
+
+Sandboxes can be stopped to free up resources and started again later, or deleted
+when you're done.
+
+<Tabs>
+  <TabItem label="In the app">
+    Use the **sandbox actions** menu next to a sandbox to stop, rename, or delete it.
+  </TabItem>
+  <TabItem label="With the CLI">
+    ```bash
+    retask sandbox list
+    retask sandbox stop <sandbox-id>
+    retask sandbox delete <sandbox-id>
+    ```
+  </TabItem>
+</Tabs>
+
+<Aside type="caution">
+  Stopping a sandbox ends the sessions running inside it. Make sure no agent is
+  mid-task before you stop or delete one.
+</Aside>

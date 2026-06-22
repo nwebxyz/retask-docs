@@ -1,0 +1,91 @@
+---
+title: Agents
+description: Configure AI Agents that pick up tasks and run inside sandboxes.
+---
+
+import { Aside, Steps, Tabs, TabItem } from '@astrojs/starlight/components';
+
+An **AI Agent** is a worker you can assign tasks to, just like a teammate —
+except it's powered by a coding AI such as Claude Code or OpenAI Codex. You set
+one up once, and from then on you can hand it work and watch it run.
+
+An agent ties together a few things you'll meet elsewhere in these guides:
+
+- a **role** that says what kind of work it does (for example, a task processor),
+- a linked **[Sandbox Template](/guides/sandboxes/#sandbox-templates)** that
+  defines the environment it works in — which code it pulls, which tools it
+  starts, and which secrets it has,
+- and the **[sandboxes](/guides/sandboxes/)** and
+  **[sessions](/guides/sessions/)** it spins up when it actually runs.
+
+## Where agents live
+
+Agents appear right alongside your human teammates under **Settings → Members**,
+on the **Agents** tab. That's deliberate — to Retask, an agent is just another
+member of the workspace that happens to be a machine. You can assign it tasks,
+and its work shows up on the same boards.
+
+<Aside type="note">
+  Before you create an agent, set up the **Sandbox Template** it will use. The
+  template is what gives the agent access to your code and tools. See
+  [Sandboxes → Sandbox templates](/guides/sandboxes/#sandbox-templates).
+</Aside>
+
+## Create an agent
+
+<Steps>
+
+1. Go to **Settings → Members → Agents**.
+
+2. Create an agent and give it a clear **name** (for example, "Claude · Web" so
+   you know which AI and which project it's for).
+
+3. Choose its **role** — for instance, a task processor that works through
+   assigned tasks.
+
+4. Link the **Sandbox Template** that defines its environment.
+
+</Steps>
+
+<Tabs>
+  <TabItem label="With the CLI">
+    ```bash
+    # List the agents you already have
+    retask agent list
+
+    # Create a task-processing agent linked to a sandbox template
+    retask agent create \
+      --name "Claude · Web" \
+      --role ROLE_TASK_PROCESSOR \
+      --sandbox-template-id <template-id>
+    ```
+  </TabItem>
+</Tabs>
+
+## Put an agent to work
+
+Once an agent exists, assign it a task the same way you'd assign a person — pick
+it as the **assignee** on a task. It runs inside a sandbox and opens a session
+you can watch live. The full walkthrough is in
+[Run an AI Agent on a task](/guides/run-agent-on-task/).
+
+## Edit or remove an agent
+
+You can rename an agent, change its role, or point it at a different template at
+any time. Removing an agent stops it from being assigned new work; the tasks and
+sessions it already produced stay put.
+
+<Tabs>
+  <TabItem label="With the CLI">
+    ```bash
+    retask agent update <id> --name "New Name"
+    retask agent delete <id>
+    ```
+  </TabItem>
+</Tabs>
+
+<Aside type="caution">
+  An agent can do real work on your code with the credentials in its template.
+  Give each agent only the access it needs, and try a new agent on a small,
+  low-risk task first so you can see how it behaves.
+</Aside>

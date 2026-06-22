@@ -1,0 +1,92 @@
+---
+title: Run an AI Agent on a task
+description: The end-to-end flow that makes Retask different — task to agent to sandbox to session to result.
+---
+
+import { Aside, Steps, Tabs, TabItem } from '@astrojs/starlight/components';
+
+This is the flow at the heart of Retask: take a real task, hand it to an AI
+Agent, and watch it do the work in a safe environment — without leaving the app.
+It ties together every concept in these guides, so it's the best way to see how
+the pieces work as a whole.
+
+The journey in one line:
+
+> **Task** (what to do) → **Agent** (who does it) → **Sandbox** (where it runs) →
+> **Session** (the live run) → **Result** (back on the task).
+
+<Aside type="note" title="Before you start">
+  This walkthrough assumes you've already done the one-time setup:
+  connected your providers under [Integrations](/guides/integrations/), created a
+  [Sandbox Template](/guides/sandboxes/#sandbox-templates), and added an
+  [Agent](/guides/agents/) that uses it. If not, follow those links first — it
+  only takes a few minutes.
+</Aside>
+
+## Step 1 — Pick or create a task
+
+Start from a clear task. The clearer the description, the better the agent does —
+treat it like a brief for a new teammate. A good task says *what* to change and
+*what done looks like*.
+
+Open the task's detail page. You'll use the **Task assistant** here in a moment.
+
+![A task detail page, with the Task assistant ready to run an agent.](/screenshots/task-detail.png)
+
+## Step 2 — Assign it to an AI Agent
+
+Add your [Agent](/guides/agents/) as an **assignee**, just like you'd assign a
+person. This tells Retask the agent is responsible for this work.
+
+<Tabs>
+  <TabItem label="In the app">
+    On the task, open the assignee picker and choose your AI Agent. Or use the
+    **Task assistant** on the task detail page to kick the agent off directly.
+  </TabItem>
+  <TabItem label="With the CLI">
+    ```bash
+    retask task update <task-id> --assignee nweb:workspace:member:<agent-uuid>
+    ```
+  </TabItem>
+</Tabs>
+
+## Step 3 — The agent spins up a sandbox
+
+When the agent starts, it builds (or reuses) a [sandbox](/guides/sandboxes/) from
+its linked template. The sandbox clones your code, loads its secrets, and starts
+the agent's tools — a clean, isolated environment every time. You don't have to
+do anything here; it happens automatically.
+
+## Step 4 — Watch the session live
+
+The run opens as a [session](/guides/sessions/) with a **live terminal**. Open it
+to follow along in real time: the agent reads the task, makes changes, and runs
+commands while you watch. Step in if it needs guidance.
+
+![A session's live terminal, showing the agent working.](/screenshots/session-detail.png)
+
+<Aside type="tip">
+  The first few times, watch the whole session. It's the fastest way to learn how
+  much detail your agent needs in a task description.
+</Aside>
+
+## Step 5 — Review the result
+
+When the session finishes, the work comes back to the **task** — the durable
+record of what was done. Review the changes, read the session transcript, and
+either accept the work or send it back with more detail. Because the task and the
+run live in the same place, nothing gets lost between "what we wanted" and "what
+the agent did".
+
+## What to do next
+
+- Tighten your task descriptions and rerun — small wording changes often make a
+  big difference.
+- Set up more [agents](/guides/agents/) for different projects or AI providers.
+- Automate from the terminal with the [Retask CLI](/cli/getting-started/).
+
+<Aside type="caution">
+  Agents act on your real code with real credentials. Review their output before
+  you rely on it, and keep automation off production projects until you trust the
+  setup.
+</Aside>

@@ -1,0 +1,104 @@
+---
+title: Projects
+description: Organize work into projects, use the Kanban board, and configure statuses, members, and visibility.
+---
+
+import { Aside, Steps, Tabs, TabItem } from '@astrojs/starlight/components';
+
+A **project** groups related tasks together — usually one project per app,
+service, or area of work. Each project has its own board, its own set of
+statuses, and its own members. In the sample workspace, "Retask Web App",
+"Mobile App", and "Internal Tools" are each separate projects.
+
+![The projects list, showing each project with its admins and visibility.](/screenshots/projects-list.png)
+
+## Create a project
+
+<Tabs>
+  <TabItem label="In the app">
+    Open **Projects** in the sidebar and click **New project**. Give it a name,
+    and optionally a color, icon, and visibility. You'll land on an empty Kanban
+    board, ready for tasks.
+  </TabItem>
+  <TabItem label="With the CLI">
+    ```bash
+    retask project create --name "Backend" --visibility VISIBILITY_WORKSPACE_EDIT
+    ```
+  </TabItem>
+</Tabs>
+
+### Visibility
+
+Visibility controls who in the workspace can see and touch the project:
+
+- **Workspace edit** — everyone in the workspace can view and change it.
+- **Workspace view** — everyone can see it, but only its members can change it.
+- **Restricted** — only people you add as project members can see it at all.
+
+<Aside type="tip">
+  Use **Restricted** for sensitive work (a security fix, an unreleased feature).
+  Use **Workspace edit** for shared, open projects where anyone should be able to
+  pitch in.
+</Aside>
+
+## The Kanban board
+
+A project opens to a **Kanban board** — columns that tasks move through from left
+to right as work progresses. The sample columns are **Todo**, **In Progress**,
+**In Preview**, and **Done**, and each column shows how many tasks it holds.
+
+![A project Kanban board with tasks grouped into columns by status.](/screenshots/project-kanban.png)
+
+Drag a task card from one column to the next to update its status, or use the
+filters at the top to narrow the board by type, assignee, status, or priority.
+Click **+ Add task** at the bottom of any column to create a task directly in
+that status.
+
+<Aside type="note">
+  Prefer a spreadsheet-style view? Every project also has a **Tasks** tab that
+  lists the same tasks as rows you can sort and filter. See the
+  [Tasks guide](/guides/tasks/).
+</Aside>
+
+## Project tabs
+
+Inside a project you'll find a few tabs:
+
+- **Kanban** — the board described above.
+- **Tasks** — the same tasks as a sortable list.
+- **Members** — who can work on this project, and their project role.
+- **Project settings** — name, color, icon, visibility, and statuses.
+
+### Members
+
+Even in a workspace-wide project, you can give specific people a project role.
+Add a workspace member to the project and choose their role (for example, an
+editor who can change tasks here). Removing someone from the project doesn't
+remove them from the workspace.
+
+## Archiving vs. deleting
+
+When a project is finished, you have two options:
+
+- **Archive** — hides it from the active list but keeps everything. You can
+  unarchive it any time. This is the safe default for wrapping up work. In the
+  sample workspace, "Legacy Dashboard" is an archived project.
+- **Delete** — permanently removes the project and its tasks. This can't be undone.
+
+<Tabs>
+  <TabItem label="In the app">
+    Use the **project actions** menu (next to a project in the list) to archive,
+    unarchive, or delete.
+  </TabItem>
+  <TabItem label="With the CLI">
+    ```bash
+    retask project archive <project-id>
+    retask project unarchive <project-id>
+    ```
+  </TabItem>
+</Tabs>
+
+<Aside type="danger">
+  Deleting a project is permanent. If you might want the history later, archive
+  it instead.
+</Aside>

@@ -38,13 +38,15 @@ export default defineConfig({
         {
           label: 'Guides',
           items: [
+            { label: 'Concepts', slug: 'guides/concepts' },
             { label: 'Getting started', slug: 'guides/getting-started' },
+            { label: 'Run an AI Agent on a task', slug: 'guides/run-agent-on-task' },
             { label: 'Workspaces', slug: 'guides/workspaces' },
             { label: 'Projects', slug: 'guides/projects' },
             { label: 'Tasks', slug: 'guides/tasks' },
+            { label: 'Agents', slug: 'guides/agents' },
             { label: 'Sandboxes', slug: 'guides/sandboxes' },
             { label: 'Sessions', slug: 'guides/sessions' },
-            { label: 'Agents', slug: 'guides/agents' },
             { label: 'Integrations', slug: 'guides/integrations' },
           ],
         },

@@ -1,72 +1,140 @@
 ---
 title: Getting started
-description: Create your first workspace, project, and task in Retask.
+description: Create your workspace and first project, then invite your team and an AI Agent.
 ---
 
 import { Aside, Tabs, TabItem, Steps } from '@astrojs/starlight/components';
 
-Retask organizes work into **workspaces**, each containing **projects**, which hold **tasks**. Your whole team — human members and AI Agents — works from the same board. This guide walks through creating your first of each.
+This guide takes you from a brand-new account to a working project with people
+and an AI Agent on it. No coding required — everything here happens in the app.
+
+If any of the words below are unfamiliar (workspace, project, task, agent), the
+[Concepts](/guides/concepts/) page explains them all in plain language. It's a
+useful five-minute read before you start.
 
 <Aside type="tip" title="New to Retask?">
-  The Free plan has no time limit and needs no credit card. You get 10 users, 3
-  projects, and 5 AI Agents to start.
+  The Free plan has no time limit and needs no credit card. You get room for a
+  small team, a few projects, and a handful of AI Agents to try things out.
 </Aside>
 
-## 1. Sign in and create a workspace
+## 1. Create your workspace
+
+A **workspace** is your whole account — it holds your people, projects, and
+settings.
 
 <Steps>
 
 1. Go to [app.retask.work](https://app.retask.work) and sign in.
 
-2. Create a workspace — your top-level container for members and billing.
+2. Create a workspace and give it a name (your company or team name works well).
 
-3. Invite teammates, or skip ahead and add them later.
+3. You'll land in the workspace, with the name shown in the switcher at the top.
 
 </Steps>
 
-## 2. Create a project
+![The Retask workspace with the All tasks view open.](/screenshots/tasks-board.png)
 
-A project holds a kanban board and a set of flexible roles. Create one from the app, or from the CLI:
+<Aside type="note">
+  You can always change the workspace name, color, and description later under
+  **Settings → General**. See the [Workspaces guide](/guides/workspaces/).
+</Aside>
+
+## 2. Create your first project
+
+A **project** groups related work — usually one per app, product, or area.
 
 <Tabs>
-  <TabItem label="App">
-    Open your workspace, click **New project**, give it a name, and you land on
-    an empty kanban board.
+  <TabItem label="In the app">
+    Open **Projects** in the sidebar, click **New project**, give it a name
+    (for example, "Website"), and you'll land on an empty **Kanban board** ready
+    for tasks.
   </TabItem>
-  <TabItem label="CLI">
+  <TabItem label="With the CLI">
     ```bash
     # Authenticate once, then create a project
     retask auth login
-    retask project create "My first project"
+    retask project create --name "Website"
     ```
   </TabItem>
 </Tabs>
 
-## 3. Create and assign a task
+![A project's Kanban board with Todo, In Progress, In Preview, and Done columns.](/screenshots/project-kanban.png)
 
-Add a task to the board and assign it to a person or an AI Agent.
+## 3. Invite your team
 
-```bash
-retask task create \
-  --project "My first project" \
-  --title "Set up CI pipeline" \
-  --assignee agent
-```
+Bring in the people you work with. Each person gets a **role** that controls what
+they can do — Owner, Admin, Editor, or Viewer.
+
+<Steps>
+
+1. Go to **Settings → Members**.
+
+2. Click **Invite member** and enter their email address.
+
+3. Choose a role. **Editor** is the right choice for most teammates — they can
+   create and change tasks. Use **Viewer** for people who only need to follow along.
+
+</Steps>
+
+![The workspace members list, showing people and their roles.](/screenshots/settings-members.png)
 
 <Aside type="note">
-  When you assign a task to an AI Agent, it runs inside an isolated cloud
-  **sandbox** — your code, credentials, and environment are never shared between
-  workspaces.
+  Not sure which role to pick? The [Workspaces guide](/guides/workspaces/#roles-and-permissions)
+  has a table comparing what each role can do.
 </Aside>
 
+## 4. Add an AI Agent
+
+An **Agent** is an AI worker you can assign tasks to, just like a teammate. To
+add one you'll point it at a **Sandbox Template** — the recipe for the
+environment it works in.
+
+<Steps>
+
+1. Make sure you have a sandbox template set up (see the
+   [Sandboxes guide](/guides/sandboxes/#sandbox-templates)). A template defines
+   which code the agent works on and which tools it uses.
+
+2. Go to **Settings → Members → Agents** and create an agent: give it a name,
+   pick its role, and link the template.
+
+3. The agent now appears alongside your human members, ready to be assigned work.
+
+</Steps>
+
 <Aside type="caution">
-  Agents can run end-to-end on event triggers (like a status change) with no
-  human in the loop. Review your trigger configuration before enabling
-  automation on a production project.
+  Agents do real work on your code inside a sandbox. Start them on a low-stakes
+  task first so you can watch what they do before trusting them with anything
+  important.
 </Aside>
+
+## 5. Create a task and assign it
+
+Now put it all together: add a task and hand it to a person or your new agent.
+
+<Tabs>
+  <TabItem label="In the app">
+    Click **+ Task** at the top, fill in a title and description, set a priority,
+    and choose an assignee — a teammate or your AI Agent. Save, and it appears on
+    the board.
+  </TabItem>
+  <TabItem label="With the CLI">
+    ```bash
+    retask task create \
+      --project-id <id> \
+      --title "Fix login bug" \
+      --priority HIGH
+    ```
+  </TabItem>
+</Tabs>
+
+When you assign a task to an AI Agent, it runs inside an isolated
+**sandbox** and opens a **session** you can watch live. The full flow is covered
+in [Run an AI Agent on a task](/guides/run-agent-on-task/).
 
 ## Where to go next
 
+- Read the [Concepts](/guides/concepts/) page for the mental model behind everything.
+- Walk through the headline flow: [Run an AI Agent on a task](/guides/run-agent-on-task/).
 - Dig into [Workspaces](/guides/workspaces/), [Projects](/guides/projects/), and [Tasks](/guides/tasks/).
-- Learn how [Sandboxes](/guides/sandboxes/) and [Sessions](/guides/sessions/) let you watch agents work.
 - Automate everything from the terminal with the [Retask CLI](/cli/getting-started/).
