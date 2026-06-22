@@ -29,7 +29,7 @@ Set your Personal Access Token and workspace, then exchange the PAT for a token:
 
 ```bash
 export NWEB_API_KEY="nweb_pat_..."
-export NWEB_WORKSPACE_ID="ws_..."
+export NWEB_WORKSPACE_ID="00000000-0000-0000-0000-000000000000"  # workspace UUID
 retask auth login
 ```
 
