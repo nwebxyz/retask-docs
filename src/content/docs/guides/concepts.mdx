@@ -29,9 +29,9 @@ Think of it as a set of nested containers, plus the "engine" that does the work:
     - **Tasks** are the individual pieces of work inside a project.
 - To get work *done automatically*, Retask adds three more pieces:
   - An **Agent** is an AI worker you can assign a task to.
-  - A **Sandbox Template** is the recipe for the agent's work environment.
-  - A **Sandbox** is a live environment built from that recipe, where the agent runs.
+  - A **Sandbox** is a live, isolated environment where the agent runs.
     - A **Session** is one individual run of an agent inside a sandbox.
+  - A **Sandbox Template** is a reusable recipe for building sandboxes.
 
 The short version: **a Task says what to do. An Agent does it. The Sandbox is
 where it works. A Session is one attempt.**
@@ -50,8 +50,7 @@ Your top-level home in Retask. A workspace holds your projects, your people,
 your billing, and your settings. Most teams have exactly one. If you consult for
 several clients, you might keep a separate workspace per client so nothing mixes.
 
-*In the app:* the workspace name and switcher sit at the top of the screen
-(for example, "NWEB Corp").
+*In the app:* the workspace name and switcher sit at the top of the screen.
 
 ### Workspace Member
 
@@ -89,11 +88,12 @@ long after any single agent run ends.
 
 ### Agent
 
-An AI worker you can assign tasks to, the same way you'd assign a teammate. An
-agent has a name, a **role** (for example, a task processor), and a linked
-**Sandbox Template** that defines the environment it works in. Behind the scenes
-an agent is powered by a coding AI such as Claude Code or Codex — you configure
-that once and then just hand it work.
+An AI worker you can assign tasks to, the same way you'd assign a teammate. You
+set one up by filling in a short form: a name, a **role** (for example, a task
+processor), when it runs, which integrations it can use, and how its environment
+starts. Everything the agent needs lives on the agent itself — there's no
+separate template to attach. Behind the scenes it's powered by a coding AI such
+as Claude Code or Codex; you configure it once and then just hand it work.
 
 ### Sandbox Template
 

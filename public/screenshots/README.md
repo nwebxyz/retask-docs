@@ -20,4 +20,5 @@ the equivalent screens.
 | `sandboxes-list.png`       | `/w/nweb-corp:mock-ws-1/sandboxes`                               | The sandboxes list (status, sharing, sessions).              |
 | `sandbox-templates.png`    | `/w/nweb-corp:mock-ws-1/sandbox-templates`                       | The templates list (repos, env vars).                        |
 | `settings-members.png`     | `/w/nweb-corp:mock-ws-1/settings/members`                        | The workspace members list with roles.                       |
+| `settings-agents.png`      | `/w/nweb-corp:mock-ws-1/settings/members?tab=agents`             | The Agents tab (workspace agents + available agents).        |
 | `settings-general.png`     | `/w/nweb-corp:mock-ws-1/settings`                                | General workspace settings (name, color, description).       |

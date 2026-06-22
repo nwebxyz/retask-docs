@@ -85,22 +85,34 @@ they can do — Owner, Admin, Editor, or Viewer.
 
 ## 4. Add an AI Agent
 
-An **Agent** is an AI worker you can assign tasks to, just like a teammate. To
-add one you'll point it at a **Sandbox Template** — the recipe for the
-environment it works in.
+An **Agent** is an AI worker you can assign tasks to, just like a teammate. You
+configure it once by filling in a short form — there's no separate template to
+wire up.
 
 <Steps>
 
-1. Make sure you have a sandbox template set up (see the
-   [Sandboxes guide](/guides/sandboxes/#sandbox-templates)). A template defines
-   which code the agent works on and which tools it uses.
+1. Go to **Settings → Members → Agents** and click **New agent**.
 
-2. Go to **Settings → Members → Agents** and create an agent: give it a name,
-   pick its role, and link the template.
+2. Fill in the basics: a **name**, an optional **description**, and a **role** —
+   *Task processor* (acts on a task when its status changes) or *Task planner*
+   (plans and assigns tasks automatically).
 
-3. The agent now appears alongside your human members, ready to be assigned work.
+3. Choose when it runs and where: a **trigger** (for example, "when a task is
+   assigned to this agent") and an **execution target** (such as "run on any
+   available sandbox"). Add any **integrations** it needs, and an optional
+   **agent prompt**.
+
+4. Save, and the agent appears alongside your human members, ready to be
+   assigned work.
 
 </Steps>
+
+<Aside type="note">
+  The **Advanced** tab lets you fine-tune the environment — a sandbox startup
+  command, a shutdown policy, and the session's system prompt — but the defaults
+  are a fine place to start. See the [Agents guide](/guides/agents/) for the full
+  set of options.
+</Aside>
 
 <Aside type="caution">
   Agents do real work on your code inside a sandbox. Start them on a low-stakes
