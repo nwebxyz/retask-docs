@@ -18,7 +18,7 @@ export default defineConfig({
           attrs: { name: 'theme-color', content: '#2442AF' },
         },
       ],
-      // Cloudflare-style top nav lives inside our SocialIcons override.
+      // Top nav lives inside our SocialIcons component.
       components: {
         SocialIcons: './src/components/SocialIcons.astro',
       },

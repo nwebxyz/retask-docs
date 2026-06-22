@@ -8,11 +8,11 @@
   --retask-secondary: #87bfff;
   --retask-ink: #0f1f4a;
 
-  /* Brand font everywhere; code stays on Starlight's mono stack */
+  /* Brand font everywhere; code stays on the default mono stack */
   --sl-font: 'Plus Jakarta Sans Variable', system-ui, -apple-system, sans-serif;
 }
 
-/* ---- Accent palette: dark mode (Starlight default :root) ---- */
+/* ---- Accent palette: dark mode (default :root) ---- */
 :root {
   --sl-color-accent-low: #16306f;
   --sl-color-accent: #2f54c9;
@@ -36,7 +36,7 @@
   --sl-text-h5: 1rem;
 }
 
-/* Re-assert at the breakpoint where Starlight bumps h1 to 5xl (42px) */
+/* Re-assert at the breakpoint where the base theme bumps h1 to its largest step (42px) */
 @media (min-width: 50em) {
   :root {
     --sl-text-h1: 2rem;
@@ -70,7 +70,7 @@
   gap: 0.6rem;
 }
 
-/* Compact hero CTAs — sized to match the Cloudflare docs buttons */
+/* Compact hero CTAs */
 .hero .sl-link-button {
   padding: 0.5rem 1.1rem;
   font-size: 0.875rem;
@@ -135,7 +135,7 @@
 }
 
 /* =========================================================================
-   Cloudflare-docs-inspired layer (Retask-branded)
+   Layout & component polish (Retask-branded)
    ========================================================================= */
 
 /* ---- Top navigation (rendered by src/components/SocialIcons.astro) ---- */
@@ -183,7 +183,7 @@
   }
 }
 
-/* ---- Denser, Cloudflare-style sidebar ---- */
+/* ---- Denser sidebar ---- */
 .sidebar-content {
   font-size: 0.875rem;
 }
@@ -286,7 +286,7 @@
   padding: 0.15em 0.4em;
 }
 
-/* ---- LinkCard / Card grid: Cloudflare-style tiles ---- */
+/* ---- LinkCard / Card grid: tiles ---- */
 .sl-markdown-content .card-grid {
   gap: 1rem;
 }
