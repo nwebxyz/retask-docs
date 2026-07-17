@@ -8,8 +8,10 @@ description: Sandbox commands for the Retask CLI.
 
 List sandboxes
 
+**Flags:** `--status`, `--type`
+
 ```bash
-retask sandbox list
+retask sandbox list --type PRIVATE
 ```
 
 ## `retask sandbox get`
@@ -22,12 +24,12 @@ retask sandbox get <sandbox-id>
 
 ## `retask sandbox create`
 
-Create a sandbox
+Create a sandbox. Custom config via --env/--git-repo/--startup-command/--session-init-command/--shutdown-policy/--integration-provider-id, all mutually exclusive with --template-id
 
-**Flags:** `--name`, `--type`, `--template-id`, `--workspace-id`
+**Flags:** `--name`, `--type`, `--template-id`, `--env`, `--git-repo`, `--startup-command`, `--session-init-command`, `--shutdown-policy`, `--integration-provider-id`
 
 ```bash
-retask sandbox create --name my-sandbox --type CLOUD
+retask sandbox create --name my-sandbox --session-init-command 'claude --dangerously-skip-permissions "$SEED_PROMPT"'
 ```
 
 ## `retask sandbox update`
@@ -60,7 +62,7 @@ retask sandbox delete <sandbox-id>
 
 List sessions
 
-**Flags:** `--sandbox-id`
+**Flags:** `--sandbox-id`, `--status`
 
 ```bash
 retask sandbox session list --sandbox-id <sb-id>
@@ -78,7 +80,7 @@ retask sandbox session get <session-id>
 
 Create a sandbox session
 
-**Flags:** `--sandbox-id`
+**Flags:** `--sandbox-id`, `--name`
 
 ```bash
 retask sandbox session create --sandbox-id <sb-id>
@@ -114,8 +116,16 @@ retask sandbox session delete <session-id>
 
 Connect this machine as a Private VM sandbox (long-running)
 
-**Flags:** `--mode`
+**Flags:** `--mode`, `--auto-open`, `--no-auto-respond`
 
 ```bash
-retask sandbox connect <sandbox-id> --mode headless
+retask sandbox connect <sandbox-id>
+```
+
+## `retask sandbox attach`
+
+Attach terminal to a running local session
+
+```bash
+retask sandbox attach <session-id>
 ```

@@ -65,3 +65,13 @@ List GitHub repos accessible via integration
 ```bash
 retask integration github repos
 ```
+
+## `retask integration gitlab repos`
+
+List GitLab repos accessible via integration
+
+**Flags:** `--level`
+
+```bash
+retask integration gitlab repos
+```
