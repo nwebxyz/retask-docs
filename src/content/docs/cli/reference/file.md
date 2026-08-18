@@ -4,14 +4,24 @@ description: File commands for the Retask CLI.
 ---
 
 <!-- AUTO-GENERATED from `retask help-llm`. Do not edit by hand; run `yarn gen:cli`. -->
-## `retask file list`
+## `retask file upload`
 
-List files
+Upload a file — personal by default, or attached to a task or comment
 
-**Flags:** `--project-id`
+**Flags:** `--task`, `--comment`
 
 ```bash
-retask file list --project-id <proj-id>
+retask file upload ./report.pdf --task <task-id>
+```
+
+## `retask file list`
+
+List files in the workspace, optionally filtered by attached resource or author
+
+**Flags:** `--target`, `--created-by`
+
+```bash
+retask file list --target nweb:retask-task:task:<task-id>
 ```
 
 ## `retask file get`

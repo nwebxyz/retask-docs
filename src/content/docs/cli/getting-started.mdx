@@ -1,0 +1,116 @@
+---
+title: CLI getting started
+description: Install the Retask CLI, authenticate with a PAT, and run your first command.
+---
+
+import { Aside, Tabs, TabItem } from '@astrojs/starlight/components';
+
+The Retask CLI (`retask`) drives the same API as the web app from your terminal or scripts.
+
+## Install
+
+<Tabs syncKey="os">
+  <TabItem label="macOS / Linux">
+    ```bash
+    curl -fsSL https://retask.work/install.sh | sh
+    ```
+  </TabItem>
+  <TabItem label="Windows (PowerShell)">
+    ```powershell
+    irm https://retask.work/install.ps1 | iex
+    ```
+
+    The installer adds `retask` to your user `PATH`, but that change only reaches
+    programs started afterwards — this session still has the `PATH` it was created
+    with. Add it to the current session so you can carry on without reopening
+    anything:
+
+    ```powershell
+    $env:Path += ";$env:LOCALAPPDATA\retask\bin"
+    ```
+
+    <Aside type="caution" title="A new tab is not always a new environment">
+      If you skip the line above and reopen your terminal instead, close **every**
+      Windows Terminal window first — new tabs inherit the environment of the
+      window that spawned them, so a fresh tab in an old window still won't find
+      `retask`. In VS Code, restart VS Code itself, not just the integrated
+      terminal.
+    </Aside>
+  </TabItem>
+</Tabs>
+
+Check the installed version at any time with:
+
+```bash
+retask -v
+```
+
+To update to the latest release, run `retask upgrade`, then `retask -v` again to
+confirm the new version.
+
+## Authenticate
+
+There are two ways to authenticate. Pick whichever fits.
+
+### With a Personal Access Token
+
+Set your Personal Access Token and workspace, then exchange the PAT for a token:
+
+<Tabs syncKey="os">
+  <TabItem label="macOS / Linux">
+    ```bash
+    export NWEB_API_KEY="nweb_pat_..."
+    export NWEB_WORKSPACE_ID="00000000-0000-0000-0000-000000000000"  # workspace UUID
+    retask auth login
+    ```
+  </TabItem>
+  <TabItem label="Windows (PowerShell)">
+    ```powershell
+    $env:NWEB_API_KEY = "nweb_pat_..."
+    $env:NWEB_WORKSPACE_ID = "00000000-0000-0000-0000-000000000000"  # workspace UUID
+    retask auth login
+    ```
+
+    These last for the current session. To avoid leaving your PAT in PowerShell's
+    saved command history, prompt for it instead:
+
+    ```powershell
+    $env:NWEB_API_KEY = Read-Host 'Paste your PAT'
+    ```
+
+    To set one permanently for your user account, use
+    `[Environment]::SetEnvironmentVariable('NWEB_API_KEY', 'nweb_pat_...', 'User')`
+    — like the `PATH` change above, it applies to new sessions only.
+  </TabItem>
+</Tabs>
+
+### With an existing token
+
+If you already have a token, set `NWEB_API_TOKEN` and you're ready to go — the
+token already identifies your workspace, so you do **not** need `NWEB_API_KEY` or
+`NWEB_WORKSPACE_ID`, and you can skip `retask auth login`:
+
+<Tabs syncKey="os">
+  <TabItem label="macOS / Linux">
+    ```bash
+    export NWEB_API_TOKEN="..."
+    ```
+  </TabItem>
+  <TabItem label="Windows (PowerShell)">
+    ```powershell
+    $env:NWEB_API_TOKEN = "..."
+    ```
+  </TabItem>
+</Tabs>
+
+Other optional environment variables: `NWEB_API_ENDPOINT`, `RETASK_PROFILE`,
+`RETASK_NO_PERSIST`.
+
+## First commands
+
+```bash
+retask project list
+retask task create --project-id <id> --title "Fix login bug" --priority HIGH
+```
+
+See the [command reference](/cli/reference/auth/) for every command.

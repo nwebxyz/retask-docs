@@ -32,19 +32,19 @@ retask task get-by-key ENG-42
 
 ## `retask task create`
 
-Create a task
+Create a task. Requires workspace context (--workspace-id or NWEB_WORKSPACE_ID). --description accepts simple HTML. --parent-task-id makes the task a subtask of that task. --assignee is repeatable and takes workspace_member_nrns (format: nweb:workspace:member:<uuid>); --reporter takes the same NRN format and defaults to the creator
 
-**Flags:** `--project-id`, `--title`, `--description`, `--status`, `--priority`, `--assignee`, `--due-at`
+**Flags:** `--project-id`, `--title`, `--description`, `--priority`, `--due-at`, `--parent-task-id`, `--assignee`, `--reporter`, `--estimation-points`
 
 ```bash
-retask task create --project-id <id> --title 'Fix bug' --priority HIGH
+retask task create --project-id <id> --title 'Fix bug' --priority HIGH --parent-task-id <parent-task-id>
 ```
 
 ## `retask task update`
 
-Partial update a task (only set flags change)
+Partial update a task (only set flags change). --status takes a status ID and --task-type a task type ID, both of which must exist in the project's config. --assignee is repeatable and replaces all assignees (workspace_member_nrns, format: nweb:workspace:member:<uuid>); pass it empty to clear. --parent-task-id and --reporter accept an empty string to clear
 
-**Flags:** `--title`, `--description`, `--status`, `--priority`, `--assignee`, `--due-at`
+**Flags:** `--title`, `--description`, `--priority`, `--status`, `--task-type`, `--assignee`, `--parent-task-id`, `--reporter`, `--estimation-points`, `--due-at`
 
 ```bash
 retask task update <id> --status <status-id> --priority HIGH
