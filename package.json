@@ -16,9 +16,9 @@
     "gen:cli": "tsx scripts/gen-cli-reference.ts"
   },
   "dependencies": {
-    "@astrojs/starlight": "^0.40.0",
+    "@astrojs/starlight": "^0.41.7",
     "@fontsource-variable/plus-jakarta-sans": "^5.2.8",
-    "astro": "^6.4.5",
+    "astro": "^7.2.2",
     "sharp": "^0.34.5"
   },
   "devDependencies": {
