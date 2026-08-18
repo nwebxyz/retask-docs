@@ -95,9 +95,18 @@ If `NWEB_API_KEY` isn't set, `retask auth login` prompts for it interactively
   still required for non-interactive contexts like scripts and CI, where
   there's no terminal to prompt on:
 
-  ```bash
-  export NWEB_WORKSPACE_ID="00000000-0000-0000-0000-000000000000"  # workspace UUID
-  ```
+  <Tabs syncKey="os">
+    <TabItem label="macOS / Linux">
+      ```bash
+      export NWEB_WORKSPACE_ID="00000000-0000-0000-0000-000000000000"  # workspace UUID
+      ```
+    </TabItem>
+    <TabItem label="Windows (PowerShell)">
+      ```powershell
+      $env:NWEB_WORKSPACE_ID = "00000000-0000-0000-0000-000000000000"  # workspace UUID
+      ```
+    </TabItem>
+  </Tabs>
 </Aside>
 
 ### With an existing token
