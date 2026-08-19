@@ -1,0 +1,332 @@
+---
+title: Private VM sandboxes
+description: Connect your own machine to Retask so your whole team — people and agents — can run sessions on it, using the AI tools already installed and signed in there.
+---
+
+import { Aside, Steps, Tabs, TabItem } from '@astrojs/starlight/components';
+import PrivateVmLanes from '../../../components/PrivateVmLanes.astro';
+
+A **Private VM** is a machine you own — a laptop, a workstation under a desk, a
+VM you rent — connected to Retask with the CLI so it can host
+[sessions](/guides/sessions/). Everything else about it stays yours: the tools
+you installed, the accounts those tools are signed in to, and the networks the
+machine can reach.
+
+That's the trade against a [Cloud sandbox](/guides/sandboxes/). Retask
+provisions and bills a Cloud sandbox for you. You supply a Private VM, and in
+return every session on it starts with everything that machine already has.
+
+## Why connect one
+
+### Your AI subscriptions do the work, not API credits
+
+This is the big one. A session runs the coding tools **installed on that
+machine**, signed in the way you signed them in. If Claude Code, Codex, or
+Gemini CLI is already logged into your subscription there, that's the account
+the session uses, with the usage that subscription already includes.
+
+No API key has to be on file with Retask for those tools, and nothing meters per
+token — so an agent that grinds away all afternoon doesn't quietly turn into a
+bill.
+
+### One machine, your whole team
+
+Share the sandbox with your workspace and everyone can run on it — teammates
+*and* [AI Agents](/guides/agents/). One machine, set up once, becomes shared
+capacity instead of something only its owner benefits from.
+
+### It reaches whatever your machine reaches
+
+A VPN, an internal Git server, a staging database, a private package registry,
+licensed tooling, a GPU, hardware plugged into a USB port. If the machine can
+get to it, a session on that machine can too — no inbound access into your
+network required.
+
+### Set up once
+
+Repositories, environment, credentials, and logins all live on the machine
+already. Nobody else installs anything, and the tenth teammate gets the same
+environment as the first.
+
+## Before you start
+
+<Steps>
+
+1. **Install and authenticate the Retask CLI** on the machine — see the
+   [CLI getting started guide](/cli/getting-started/).
+
+2. **Install the AI tools the sessions will run, and sign each one in.** This is
+   the step people skip. A session launches a tool like `claude` or `codex`
+   non-interactively; it cannot complete a login for you, so a tool that isn't
+   authenticated yet will just sit at its sign-in prompt. Run each one by hand
+   once, finish the login, and confirm it works before you connect the machine.
+
+3. **Install everything else the work needs**, signed in the same way — `git`
+   and `gh`, Docker, language toolchains, a VPN client, database access.
+
+4. **Keep the machine awake and online** for as long as you want it available.
+   Check its sleep settings: a laptop that suspends drops the connection.
+
+</Steps>
+
+## 1. Create the sandbox
+
+<Tabs>
+  <TabItem label="In the app">
+    <Steps>
+
+    1. Go to **Dev Sandboxes → Sandboxes** and click **New sandbox**. Give it a
+       name your team will recognise — "Private VM" is fine.
+
+    2. On the sandbox page, set **Type** to **Private VM**.
+
+    3. Set **Sharing** to **Workspace edit** so teammates and agents can use it.
+       ([What each option means](#sharing-decides-who-can-use-it).)
+
+    4. Add the **repositories** each session should start from.
+
+    5. Set the **Session init command** — what runs when a session starts. The
+       **Claude Code** and **Codex** chips fill in the usual ones, and
+       `$SEED_PROMPT` receives the prompt or task the session started with.
+
+    6. Add **integrations**. A GitHub or GitLab token here is what lets a
+       session clone your private repositories — see
+       [Integrations](/guides/integrations/).
+
+    7. Save, and copy the sandbox ID from the page URL.
+
+    </Steps>
+  </TabItem>
+  <TabItem label="With the CLI">
+    ```bash
+    retask sandbox create \
+      --name "Private VM" \
+      --type PRIVATE \
+      --sharing WORKSPACE_EDIT \
+      --session-init-command 'claude --dangerously-skip-permissions "$SEED_PROMPT"' \
+      --git-repo url=https://github.com/your-org/your-repo,branch=main
+    ```
+
+    The command prints the new `sandbox_id` — that's what you connect to.
+
+    Two flags carry most of the meaning:
+
+    - `--type PRIVATE` makes it a Private VM. Without it you get a Cloud
+      sandbox, and `retask sandbox connect` will refuse it.
+    - `--sharing WORKSPACE_EDIT` opens it to the workspace. Leave it out and the
+      sandbox is yours alone — see [below](#sharing-decides-who-can-use-it).
+
+    For Codex, swap the init command for `codex --yolo "$SEED_PROMPT"`. Repeat
+    `--git-repo` for each repository you want cloned.
+
+    <Aside type="note">
+      `--sharing` is a recent addition. If your CLI doesn't recognise it, run
+      `retask upgrade` first.
+    </Aside>
+  </TabItem>
+</Tabs>
+
+## Sharing decides who can use it
+
+A sandbox is **Private** unless you say otherwise, and a private sandbox is
+invisible to everyone else — including agents.
+
+| Sharing | Who can run sessions on it | Who can change its settings | Can agents target it? |
+| --- | --- | --- | --- |
+| **Workspace edit** | every workspace member | every workspace member | Yes |
+| **Workspace view** | every workspace member | you, plus workspace owners and admins | Yes |
+| **Private** | you | you | No |
+
+Both workspace options let the whole workspace *use* the machine; they differ
+only in who can edit the sandbox's configuration.
+
+An agent's **Execution target** list only ever shows workspace-shared sandboxes,
+which is why a private one can never be picked by one. That's deliberate: an
+agent acts on behalf of whoever triggers it, so a machine only you can see
+shouldn't quietly become team infrastructure.
+
+To change it later:
+
+```bash
+retask sandbox update <sandbox-id> --sharing WORKSPACE_EDIT
+```
+
+## 2. Connect your machine
+
+On the machine itself, run:
+
+```bash
+retask sandbox connect <sandbox-id>
+```
+
+That's the whole thing. The machine is now a sandbox: it goes **Ready** in the
+app, and it stays connected for as long as the command runs. Press `Ctrl-C` and
+it goes offline.
+
+If you don't have the ID to hand:
+
+```bash
+retask sandbox list --type PRIVATE
+```
+
+### Running it for real
+
+The one-liner is enough to try it. A machine you want the team to rely on needs
+a little more thought.
+
+- **Pick the folder deliberately.** Every session gets a working directory
+  created *inside the folder you run `connect` from*, and so does `retask.log`.
+  Run it somewhere you're happy to accumulate session folders — not your home
+  directory.
+- **Keep it running past your terminal.** It's a long-running command, so run it
+  under `tmux`, `screen`, or a service manager. Closing the terminal disconnects
+  the machine.
+- **Go headless when supervised.** By default you get a terminal UI listing live
+  sessions. `--mode headless` logs to stderr instead, which is what you want
+  under `systemd`, `launchd`, or a container.
+- **Logs land in `retask.log`** next to you, rotating through `retask.log.1`,
+  `retask.log.2`, and so on. `--log-file` moves it; `--no-log-file` turns it off.
+- **`--auto-open`** opens a local terminal tab for each new session, handy when
+  you want to watch work land on your own screen.
+
+Every flag is in the [`sandbox connect` reference](/cli/reference/sandbox/).
+
+<Aside type="tip" title="A dropped connection is not a lost session">
+  Network trouble doesn't stop a running agent. Both lanes reconnect on their
+  own with backoff, and output produced while a session was disconnected is
+  buffered and flushed when it comes back.
+</Aside>
+
+## 3. Run work on it
+
+<Tabs>
+  <TabItem label="A session">
+    Click **Session** at the top of the app, and under **Execution target**
+    choose your Private VM by name. Add a prompt and it starts there.
+  </TabItem>
+  <TabItem label="An agent">
+    Go to **Settings → Members → Agents**, edit the agent, and set **Execution
+    target** to your Private VM. From then on every task that agent picks up
+    runs on that machine. See [Agents](/guides/agents/#execution-target).
+  </TabItem>
+  <TabItem label="With the CLI">
+    ```bash
+    # Start a session on the sandbox
+    retask sandbox session create --sandbox-id <sandbox-id>
+
+    # Attach your terminal to one running on this machine
+    retask sandbox attach <session-id>
+
+    # See what's running
+    retask sandbox session list --sandbox-id <sandbox-id>
+    ```
+  </TabItem>
+</Tabs>
+
+## What the machine's owner can see
+
+Retask draws a line between the person who connected the machine and the people
+whose sessions run on it:
+
+- Every session gets **its own folder**. Sessions never share a working
+  directory.
+- The connecting operator's **own Retask credentials are stripped** from every
+  session's environment.
+- Each session runs with a **token minted for whoever started it** — that
+  teammate, or that agent — not for whoever ran `connect`.
+
+What none of that can do is protect anything from the machine itself. Whoever
+controls the machine can read any session's folder, inspect the environment of
+any session process — including that session's Retask token and any integration
+secrets it was handed — and type straight into a running session's terminal.
+
+<Aside type="caution" title="Connecting a machine is granting shell access">
+  Sharing a Private VM with your workspace means trusting its owner with
+  everything your sessions do there, and it means the machine's owner is
+  trusting your team with their machine. Connect hardware you and your team
+  trust, and share it only with people who should have that level of access to
+  each other's work.
+
+  If a piece of work shouldn't run on someone else's hardware, run it on a
+  [Cloud sandbox](/guides/sandboxes/) instead.
+</Aside>
+
+## How a session starts on your Private VM
+
+Your machine never accepts an inbound connection. When `retask sandbox connect`
+starts, *it* dials out to Retask's sandbox proxy and holds two kinds of
+connection open.
+
+<PrivateVmLanes />
+
+That's why a Private VM works from behind NAT, a corporate firewall, or a home
+router with nothing forwarded.
+
+### When a session starts
+
+<Steps>
+
+1. **A session is requested.** Someone starts one from the app, or an agent
+   picks up a task. The proxy sends a `new_session` message down the data lane,
+   carrying the sandbox's configuration, the session's system prompt, and its
+   seed prompt.
+
+2. **Your machine opens a session lane** for it and streams setup progress into
+   it — so whoever started the session watches the machine prepare it, live.
+
+3. **A session folder is created**, named after the session, inside the folder
+   you ran `connect` from.
+
+4. **Agent instructions are written** into that folder as `CLAUDE.md` and
+   `AGENTS.md`, so whichever tool runs picks up the session's system prompt.
+
+5. **Repositories are cloned** into the folder, each on its configured branch. A
+   GitHub or GitLab token from the sandbox's integrations authenticates the
+   clone through a host-scoped git header, so the token never lands in the clone
+   URL or in the repository's `.git/config`. A repository already there is
+   fetched and reset rather than re-cloned.
+
+6. **The environment is assembled** in three layers, each overriding the last:
+   the machine's own environment — minus the operator's Retask credentials, and
+   minus the variables that describe *your* terminal rather than the session's —
+   then the sandbox's configured variables and secrets, then the session's own:
+   its ID, its seed prompt, the workspace, and that per-session Retask token.
+
+7. **The session init command runs** in a terminal, from inside the session
+   folder. Its output is what streams back up the session lane to the browser.
+   If you didn't set one, you get a plain shell.
+
+</Steps>
+
+### When a session stops
+
+Stopping a session sends `stop_session` down the data lane. Your machine ends
+that session's process and closes its session lane. The session folder stays on
+disk, so you can go back to what the agent did.
+
+Meanwhile the proxy pings the data lane on a regular interval and your machine
+answers. If enough consecutive pings go unanswered, the sandbox is marked as
+errored and its sessions are closed — that's how a machine that went to sleep or
+lost power stops looking available.
+
+## Troubleshooting
+
+**`sandbox ... must be type PRIVATE`** — `connect` refuses a Cloud sandbox.
+Switch the sandbox's Type to Private VM, or create a new one with
+`--type PRIVATE`.
+
+**It doesn't appear as an agent's Execution target** — its sharing is still
+Private. Run `retask sandbox update <sandbox-id> --sharing WORKSPACE_EDIT`, or
+change Sharing on the sandbox page.
+
+**The AI tool starts, then asks you to log in** — that tool isn't authenticated
+on the machine. Run it by hand there, complete the sign-in, then start a fresh
+session.
+
+**Repositories fail to clone** — the session had no GitHub or GitLab token. The
+setup log warns when it finds none, and offers Retry, Continue, or Exit. Connect
+the [integration](/guides/integrations/) and add it to the sandbox.
+
+**The sandbox shows an error after you closed your laptop** — the heartbeat went
+unanswered. Reconnect with `retask sandbox connect <sandbox-id>` and it returns
+to Ready.

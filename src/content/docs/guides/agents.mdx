@@ -47,7 +47,8 @@ Go to **Settings → Members → Agents** and click **New agent**. The form has 
    task is assigned to this agent*.
 
 4. **Execution target** — which sandbox the agent runs in. *Run on any available
-   sandbox* is the simplest choice.
+   sandbox* is the simplest choice; see [Execution target](#execution-target)
+   below.
 
 5. **Integrations** — connect the services the agent needs (see
    [Integrations](/guides/integrations/)).
@@ -56,6 +57,30 @@ Go to **Settings → Members → Agents** and click **New agent**. The form has 
    how it works.
 
 </Steps>
+
+### Execution target
+
+**Execution target** decides *where* the agent's work actually runs — which
+[sandbox](/guides/sandboxes/) hosts the [session](/guides/sessions/) it opens.
+There are two answers:
+
+- **Run on any available sandbox** — Retask picks one for you. The simplest
+  choice, and the right one until you have a reason to care.
+- **A named sandbox** — pin the agent to one specific environment. Every task it
+  picks up runs there.
+
+Pinning is what you want when the agent needs something only one machine has:
+particular tooling, a licence, network access, or the AI subscriptions signed in
+on a [Private VM](/guides/private-vm/). Connect your own machine and select it
+here, and the agent works on your hardware, with your logins, instead of on a
+Cloud sandbox billed per token.
+
+<Aside type="note">
+  The list only shows sandboxes shared with the workspace. A sandbox whose
+  sharing is **Private** belongs to one person, so no agent can be pointed at
+  it — [set its sharing](/guides/private-vm/#sharing-decides-who-can-use-it) to
+  a workspace option to make it selectable.
+</Aside>
 
 ### Advanced
 
