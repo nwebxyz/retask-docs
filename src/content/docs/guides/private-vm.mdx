@@ -104,20 +104,24 @@ environment as the first.
       --type PRIVATE \
       --sharing WORKSPACE_EDIT \
       --session-init-command 'claude --dangerously-skip-permissions "$SEED_PROMPT"' \
-      --git-repo url=https://github.com/your-org/your-repo,branch=main
+      --integration-provider-id github
     ```
 
     The command prints the new `sandbox_id` — that's what you connect to.
 
-    Two flags carry most of the meaning:
+    Three flags carry most of the meaning:
 
     - `--type PRIVATE` makes it a Private VM. Without it you get a Cloud
       sandbox, and `retask sandbox connect` will refuse it.
     - `--sharing WORKSPACE_EDIT` opens it to the workspace. Leave it out and the
       sandbox is yours alone — see [below](#sharing-decides-who-can-use-it).
+    - `--integration-provider-id github` hands sessions your GitHub credentials,
+      which is what lets them clone your private repositories. Connect the
+      provider first — see [Integrations](/guides/integrations/) — then
+      reference it here. Use `gitlab` for GitLab, and repeat the flag if you
+      need both.
 
-    For Codex, swap the init command for `codex --yolo "$SEED_PROMPT"`. Repeat
-    `--git-repo` for each repository you want cloned.
+    For Codex, swap the init command for `codex --yolo "$SEED_PROMPT"`.
 
     <Aside type="note">
       `--sharing` is a recent addition. If your CLI doesn't recognise it, run
@@ -169,25 +173,20 @@ If you don't have the ID to hand:
 retask sandbox list --type PRIVATE
 ```
 
-### Running it for real
+### Options worth knowing
 
-The one-liner is enough to try it. A machine you want the team to rely on needs
-a little more thought.
+The command above is all you need. These are extras, not requirements.
 
-- **Pick the folder deliberately.** Every session gets a working directory
-  created *inside the folder you run `connect` from*, and so does `retask.log`.
-  Run it somewhere you're happy to accumulate session folders — not your home
-  directory.
-- **Keep it running past your terminal.** It's a long-running command, so run it
-  under `tmux`, `screen`, or a service manager. Closing the terminal disconnects
-  the machine.
-- **Go headless when supervised.** By default you get a terminal UI listing live
-  sessions. `--mode headless` logs to stderr instead, which is what you want
-  under `systemd`, `launchd`, or a container.
-- **Logs land in `retask.log`** next to you, rotating through `retask.log.1`,
-  `retask.log.2`, and so on. `--log-file` moves it; `--no-log-file` turns it off.
-- **`--auto-open`** opens a local terminal tab for each new session, handy when
-  you want to watch work land on your own screen.
+- **Where you run it is where sessions land.** Each session's working directory
+  is created inside the folder you ran `connect` from, and so is `retask.log`.
+  Somewhere you don't mind collecting folders is a good choice.
+- **`--mode headless`** swaps the terminal UI for plain logging on stderr —
+  handy when the command runs somewhere nobody is watching it.
+- **`--auto-open`** opens a local terminal tab for each new session, so you can
+  watch work land on your own screen.
+- **`--log-file` and `--no-log-file`** move or switch off `retask.log`, which
+  otherwise sits next to you and rotates through `retask.log.1`,
+  `retask.log.2`, and so on.
 
 Every flag is in the [`sandbox connect` reference](/cli/reference/sandbox/).
 
@@ -208,18 +207,6 @@ Every flag is in the [`sandbox connect` reference](/cli/reference/sandbox/).
     Go to **Settings → Members → Agents**, edit the agent, and set **Execution
     target** to your Private VM. From then on every task that agent picks up
     runs on that machine. See [Agents](/guides/agents/#execution-target).
-  </TabItem>
-  <TabItem label="With the CLI">
-    ```bash
-    # Start a session on the sandbox
-    retask sandbox session create --sandbox-id <sandbox-id>
-
-    # Attach your terminal to one running on this machine
-    retask sandbox attach <session-id>
-
-    # See what's running
-    retask sandbox session list --sandbox-id <sandbox-id>
-    ```
   </TabItem>
 </Tabs>
 
@@ -301,8 +288,13 @@ router with nothing forwarded.
 ### When a session stops
 
 Stopping a session sends `stop_session` down the data lane. Your machine ends
-that session's process and closes its session lane. The session folder stays on
-disk, so you can go back to what the agent did.
+that session's process and closes its session lane. A stopped session is
+finished: it can't be resumed, and picking the work back up means starting a
+new one.
+
+Its folder stays on the machine, though, and folders accumulate. Delete the ones
+you no longer need to reclaim the space — a future release of the CLI will clear
+them out for you.
 
 Meanwhile the proxy pings the data lane on a regular interval and your machine
 answers. If enough consecutive pings go unanswered, the sandbox is marked as
