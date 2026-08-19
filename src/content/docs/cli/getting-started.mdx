@@ -107,6 +107,9 @@ If `NWEB_API_KEY` isn't set, `retask auth login` prompts for it interactively
       ```
     </TabItem>
   </Tabs>
+
+  Belong to more than one workspace? See
+  [Multiple workspaces](#multiple-workspaces) below.
 </Aside>
 
 ### With an existing token
@@ -130,6 +133,75 @@ token already identifies your workspace, so you do **not** need `NWEB_API_KEY` o
 
 Other optional environment variables: `NWEB_API_ENDPOINT`, `RETASK_PROFILE`,
 `RETASK_NO_PERSIST`.
+
+## Multiple workspaces
+
+Each login is saved into a **profile** — one profile holds one workspace's
+endpoint, workspace ID, and cached token. To work with several workspaces, log
+in once per workspace and give each login a name:
+
+<Tabs syncKey="os">
+  <TabItem label="macOS / Linux">
+    ```bash
+    export NWEB_API_KEY="nweb_pat_..."
+    retask auth login --profile acme
+
+    export NWEB_API_KEY="nweb_pat_..."
+    retask auth login --profile beta
+    ```
+  </TabItem>
+  <TabItem label="Windows (PowerShell)">
+    ```powershell
+    $env:NWEB_API_KEY = "nweb_pat_..."
+    retask auth login --profile acme
+
+    $env:NWEB_API_KEY = "nweb_pat_..."
+    retask auth login --profile beta
+    ```
+  </TabItem>
+</Tabs>
+
+Each run picks a workspace as usual and stores it under that name. From then on,
+`--profile` chooses which one a command talks to — it works on **every** command:
+
+```bash
+retask project list --profile acme
+retask task list --profile beta
+```
+
+To fix a profile for a whole shell instead of repeating the flag, set
+`RETASK_PROFILE`:
+
+<Tabs syncKey="os">
+  <TabItem label="macOS / Linux">
+    ```bash
+    export RETASK_PROFILE=acme
+    ```
+  </TabItem>
+  <TabItem label="Windows (PowerShell)">
+    ```powershell
+    $env:RETASK_PROFILE = "acme"
+    ```
+  </TabItem>
+</Tabs>
+
+If you're ever unsure which workspace a profile points at, ask:
+
+```bash
+retask auth whoami --profile acme
+```
+
+<Aside type="caution" title="Logging in with a name doesn't switch your default">
+  `retask auth login --profile acme` saves credentials under `acme` — it does
+  not make `acme` the profile that plain commands use. A command with no
+  `--profile` and no `RETASK_PROFILE` uses the profile named by
+  `active_profile` in `~/.config/retask/config.yaml`, which starts out as
+  `default` and only changes if you edit that file yourself.
+
+  So if you log in with `--profile` and then run a bare `retask project list`,
+  you'll be talking to whichever workspace `default` holds — not the one you
+  just signed into.
+</Aside>
 
 ## First commands
 

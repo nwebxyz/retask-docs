@@ -190,6 +190,27 @@ The command above is all you need. These are extras, not requirements.
 
 Every flag is in the [`sandbox connect` reference](/cli/reference/sandbox/).
 
+### Serving more than one workspace
+
+One machine can back a Private VM in several workspaces at once — useful if you
+consult for more than one client, or keep work and side projects apart.
+
+Create a sandbox in each workspace, then run one `connect` per sandbox, each
+using the [profile](/cli/getting-started/#multiple-workspaces) you logged that
+workspace in under:
+
+```bash
+# In ~/retask/acme
+retask sandbox connect <acme-sandbox-id> --profile acme
+
+# In ~/retask/beta
+retask sandbox connect <beta-sandbox-id> --profile beta
+```
+
+Give each one **its own folder**. Session folders and `retask.log` are created
+in the working directory, so two connects started from the same place would pile
+their sessions together and write over each other's logs.
+
 <Aside type="tip" title="A dropped connection is not a lost session">
   Network trouble doesn't stop a running agent. Both lanes reconnect on their
   own with backoff, and output produced while a session was disconnected is
