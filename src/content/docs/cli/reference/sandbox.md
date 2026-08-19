@@ -24,9 +24,9 @@ retask sandbox get <sandbox-id>
 
 ## `retask sandbox create`
 
-Create a sandbox. Custom config via --env/--git-repo/--startup-command/--session-init-command/--shutdown-policy/--integration-provider-id, all mutually exclusive with --template-id
+Create a sandbox. --sharing sets who can use it (WORKSPACE_EDIT, WORKSPACE_VIEW, PRIVATE; default PRIVATE) — agents can only run on a WORKSPACE_* sandbox. Custom config via --env/--git-repo/--startup-command/--session-init-command/--shutdown-policy/--integration-provider-id, all mutually exclusive with --template-id
 
-**Flags:** `--name`, `--type`, `--template-id`, `--env`, `--git-repo`, `--startup-command`, `--session-init-command`, `--shutdown-policy`, `--integration-provider-id`
+**Flags:** `--name`, `--type`, `--sharing`, `--template-id`, `--env`, `--git-repo`, `--startup-command`, `--session-init-command`, `--shutdown-policy`, `--integration-provider-id`
 
 ```bash
 retask sandbox create --name my-sandbox --session-init-command 'claude --dangerously-skip-permissions "$SEED_PROMPT"'
@@ -34,12 +34,12 @@ retask sandbox create --name my-sandbox --session-init-command 'claude --dangero
 
 ## `retask sandbox update`
 
-Update a sandbox
+Update a sandbox. --sharing changes who can use it: WORKSPACE_EDIT, WORKSPACE_VIEW, PRIVATE
 
-**Flags:** `--name`
+**Flags:** `--name`, `--sharing`
 
 ```bash
-retask sandbox update <id> --name new-name
+retask sandbox update <id> --sharing WORKSPACE_EDIT
 ```
 
 ## `retask sandbox stop`
