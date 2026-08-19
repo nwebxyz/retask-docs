@@ -46,6 +46,7 @@ export default defineConfig({
             { label: 'Tasks', slug: 'guides/tasks' },
             { label: 'Agents', slug: 'guides/agents' },
             { label: 'Sandboxes', slug: 'guides/sandboxes' },
+            { label: 'Private VM sandboxes', slug: 'guides/private-vm' },
             { label: 'Sessions', slug: 'guides/sessions' },
             { label: 'Integrations', slug: 'guides/integrations' },
           ],

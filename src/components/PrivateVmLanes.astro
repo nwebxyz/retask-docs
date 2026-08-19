@@ -1,0 +1,165 @@
+---
+/**
+ * Figure for the Private VM guide: the two WebSocket lanes between the sandbox
+ * proxy and a connected machine. Colors come from the theme's own tokens, so
+ * the figure follows light/dark without a second palette. The lanes are told
+ * apart by dash pattern as well as position, so the drawing never relies on
+ * color alone. SVG text does not wrap — every line below is set explicitly and
+ * kept short enough to stay inside the viewBox.
+ */
+---
+
+<figure class="pvm-figure not-content">
+  <svg
+    class="pvm-svg"
+    viewBox="0 0 760 300"
+    role="img"
+    aria-labelledby="pvm-title pvm-desc"
+  >
+    <title id="pvm-title">How a Private VM connects to Retask</title>
+    <desc id="pvm-desc">
+      You and your agents talk to the Retask sandbox proxy. The proxy and your
+      machine are joined by two WebSocket lanes, both opened outbound by your
+      machine: a data lane, one per sandbox, carrying the heartbeat and control
+      messages such as new_session and stop_session; and a session lane, one per
+      session, carrying the terminal's input and output.
+    </desc>
+
+    <defs>
+      <marker id="pvm-arrow-accent" viewBox="0 0 10 10" refX="9" refY="5"
+              markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path class="pvm-head-accent" d="M 0 0 L 10 5 L 0 10 z" />
+      </marker>
+      <marker id="pvm-arrow-muted" viewBox="0 0 10 10" refX="9" refY="5"
+              markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path class="pvm-head-muted" d="M 0 0 L 10 5 L 0 10 z" />
+      </marker>
+    </defs>
+
+    <rect class="pvm-box" x="2" y="64" width="156" height="96" rx="10" />
+    <text class="pvm-box-title" x="80" y="105">You and your agents</text>
+    <text class="pvm-box-sub" x="80" y="126">browser, API, or CLI</text>
+
+    <rect class="pvm-box" x="238" y="64" width="164" height="96" rx="10" />
+    <text class="pvm-box-title" x="320" y="105">Retask</text>
+    <text class="pvm-box-title" x="320" y="124">sandbox proxy</text>
+
+    <rect class="pvm-box pvm-box-yours" x="566" y="64" width="192" height="96" rx="10" />
+    <text class="pvm-box-title" x="662" y="105">Your machine</text>
+    <text class="pvm-box-sub pvm-mono" x="662" y="126">retask sandbox connect</text>
+
+    <line class="pvm-link-muted" x1="168" y1="112" x2="228" y2="112"
+          marker-start="url(#pvm-arrow-muted)" marker-end="url(#pvm-arrow-muted)" />
+
+    <text class="pvm-lane-label" x="484" y="86">Data lane</text>
+    <line class="pvm-link-data" x1="412" y1="98" x2="556" y2="98"
+          marker-start="url(#pvm-arrow-accent)" marker-end="url(#pvm-arrow-accent)" />
+
+    <text class="pvm-lane-label" x="484" y="128">Session lane</text>
+    <line class="pvm-link-session" x1="412" y1="140" x2="556" y2="140"
+          marker-start="url(#pvm-arrow-accent)" marker-end="url(#pvm-arrow-accent)" />
+
+    <line class="pvm-link-data" x1="4" y1="204" x2="34" y2="204" />
+    <text class="pvm-legend" x="46" y="200">
+      <tspan class="pvm-legend-name">Data lane</tspan>
+      <tspan> — one per sandbox, open for as long as connect runs.</tspan>
+    </text>
+    <text class="pvm-legend" x="46" y="218">
+      Heartbeat, plus control messages: new_session, stop_session.
+    </text>
+
+    <line class="pvm-link-session" x1="4" y1="248" x2="34" y2="248" />
+    <text class="pvm-legend" x="46" y="244">
+      <tspan class="pvm-legend-name">Session lane</tspan>
+      <tspan> — one per session, opened on demand.</tspan>
+    </text>
+    <text class="pvm-legend" x="46" y="262">
+      Carries the terminal's input and output.
+    </text>
+
+    <text class="pvm-footnote" x="4" y="292">
+      Your machine opens both lanes outbound — no inbound port, so NAT and
+      firewalls are fine.
+    </text>
+  </svg>
+</figure>
+
+<style>
+  /* Below ~600px the drawing's text would shrink past legibility, so the
+     figure scrolls inside itself rather than scaling down with the column. */
+  .pvm-figure {
+    margin: 1.75rem 0;
+    overflow-x: auto;
+  }
+  .pvm-svg {
+    width: 100%;
+    min-width: 600px;
+    height: auto;
+  }
+
+  .pvm-box {
+    fill: var(--sl-color-gray-6);
+    stroke: var(--sl-color-gray-5);
+    stroke-width: 1;
+  }
+  /* The one box the reader owns gets the accent outline. */
+  .pvm-box-yours {
+    stroke: var(--sl-color-text-accent);
+  }
+
+  .pvm-box-title {
+    fill: var(--sl-color-white);
+    font-size: 14px;
+    font-weight: 700;
+    text-anchor: middle;
+  }
+  .pvm-box-sub {
+    fill: var(--sl-color-gray-3);
+    font-size: 11.5px;
+    text-anchor: middle;
+  }
+  .pvm-mono {
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 11px;
+  }
+
+  .pvm-lane-label {
+    fill: var(--sl-color-text-accent);
+    font-size: 12px;
+    font-weight: 600;
+    text-anchor: middle;
+  }
+
+  .pvm-link-muted {
+    stroke: var(--sl-color-gray-4);
+    stroke-width: 1.5;
+  }
+  .pvm-link-data,
+  .pvm-link-session {
+    stroke: var(--sl-color-text-accent);
+    stroke-width: 2;
+  }
+  .pvm-link-session {
+    stroke-dasharray: 7 5;
+  }
+
+  .pvm-head-accent {
+    fill: var(--sl-color-text-accent);
+  }
+  .pvm-head-muted {
+    fill: var(--sl-color-gray-4);
+  }
+
+  .pvm-legend {
+    fill: var(--sl-color-gray-2);
+    font-size: 13px;
+  }
+  .pvm-legend-name {
+    fill: var(--sl-color-white);
+    font-weight: 600;
+  }
+  .pvm-footnote {
+    fill: var(--sl-color-gray-3);
+    font-size: 12px;
+  }
+</style>
