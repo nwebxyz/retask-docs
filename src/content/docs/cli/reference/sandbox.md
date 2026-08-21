@@ -114,12 +114,12 @@ retask sandbox session delete <session-id>
 
 ## `retask sandbox connect`
 
-Connect this machine as a Private VM sandbox (long-running). Logs go to the TUI (stderr when headless) and to retask.log in the current folder, which rotates into retask.log.1 ... retask.log.N
+Connect this machine as a Private VM sandbox (long-running). Logs go to the TUI (stderr when headless) and to retask.log in the current folder, which rotates into retask.log.1 ... retask.log.N. Session folders are created in the current directory and recorded in sandbox_<sandbox-id>.json. Stopping a session, the sandbox, or this command leaves folders on disk; --retention deletes those older than its window (checked hourly), and "off" disables it. Live sessions are never deleted
 
-**Flags:** `--mode`, `--auto-open`, `--no-auto-respond`, `--session-buffer`, `--log-file`, `--no-log-file`, `--log-max-size`, `--log-backups`, `--no-log-path`
+**Flags:** `--mode`, `--auto-open`, `--no-auto-respond`, `--retention`, `--session-buffer`, `--log-file`, `--no-log-file`, `--log-max-size`, `--log-backups`, `--no-log-path`
 
 ```bash
-retask sandbox connect <sandbox-id>
+retask sandbox connect <sandbox-id> --retention 30d
 ```
 
 ## `retask sandbox attach`
@@ -128,4 +128,14 @@ Attach terminal to a running local session
 
 ```bash
 retask sandbox attach <session-id>
+```
+
+## `retask sandbox cleanup`
+
+Delete session folders left behind by stopped sessions, in the current directory. Only folders recorded in a sandbox_<sandbox-id>.json session log are considered; anything else is left alone. With no argument every session log in the directory is swept; pass a sandbox id to narrow it. --older-than 0 deletes everything and prompts first unless --yes
+
+**Flags:** `--older-than`, `--dry-run`, `--yes`
+
+```bash
+retask sandbox cleanup --older-than 7d
 ```

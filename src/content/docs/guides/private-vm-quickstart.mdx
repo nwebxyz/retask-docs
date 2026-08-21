@@ -1,0 +1,83 @@
+---
+title: Private VM quickstart
+description: Connect your own machine to Retask in about five minutes — install the CLI, create a token, and connect.
+---
+
+import { Aside, Tabs, TabItem } from '@astrojs/starlight/components';
+
+A **Private VM** is your own machine connected to Retask so sessions can run
+there — see [Private VM sandboxes](/guides/private-vm/) for the why. This page
+is just the commands, start to finish in about five minutes.
+
+<Aside type="tip" title="One prerequisite">
+  Whichever AI tool your sessions will run — Claude Code, Codex, etc. — needs
+  to already be installed and signed in on this machine. A session can't
+  complete a login for you. See
+  [Before you start](/guides/private-vm/#before-you-start) for details.
+</Aside>
+
+## 1. Install the CLI
+
+<Tabs syncKey="os">
+  <TabItem label="macOS / Linux">
+    ```bash
+    curl -fsSL https://retask.work/install.sh | sh
+    ```
+  </TabItem>
+  <TabItem label="Windows (PowerShell)">
+    ```powershell
+    irm https://retask.work/install.ps1 | iex
+    ```
+  </TabItem>
+</Tabs>
+
+## 2. Create a token
+
+Create a personal access token at
+<a href="https://app.retask.work/access-tokens" target="_blank" rel="noopener noreferrer">app.retask.work/access-tokens</a>.
+
+## 3. Authenticate
+
+<Tabs syncKey="os">
+  <TabItem label="macOS / Linux">
+    ```bash
+    export NWEB_API_KEY="nweb_pat_..."
+    retask auth login
+    ```
+  </TabItem>
+  <TabItem label="Windows (PowerShell)">
+    ```powershell
+    $env:NWEB_API_KEY = "nweb_pat_..."
+    retask auth login
+    ```
+  </TabItem>
+</Tabs>
+
+## 4. Create the sandbox
+
+```bash
+retask sandbox create \
+  --name "Private VM" \
+  --type PRIVATE \
+  --sharing WORKSPACE_EDIT \
+  --session-init-command 'claude --dangerously-skip-permissions "$SEED_PROMPT"' \
+  --integration-provider-id github
+```
+
+The command prints the new `sandbox_id` — copy it for the next step. Swap the
+init command for `codex --yolo "$SEED_PROMPT"` if you use Codex instead.
+
+## 5. Connect your machine
+
+```bash
+retask sandbox connect <sandbox-id>
+```
+
+That's it — the machine goes **Ready** in the app, and stays connected for as
+long as the command runs. Press `Ctrl-C` and it goes offline.
+
+## Next steps
+
+Full details — sharing options, running work on it, what the machine's owner
+can see, troubleshooting — are all in
+[Private VM sandboxes](/guides/private-vm/).
